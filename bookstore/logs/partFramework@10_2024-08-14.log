@@ -1,0 +1,17 @@
+
+[INFO] 2024.08.14 11:21:30  module  partFramework@loader
+└─> path: EventEmitter.<anonymous> (C:\Users\armin\OneDrive\دسکتاپ\Project\bookstore\bookstore\node_modules\@partFramework\core\main.js:147:23)
+└─> msg_id: 342e589d-a437-47e6-9d8d-f9615a4fba4d
+└─> Load Local Configs - configs dir loaded successfully!
+[INFO] 2024.08.14 11:21:32  module  partFramework@router
+└─> path: EventEmitter.<anonymous> (C:\Users\armin\OneDrive\دسکتاپ\Project\bookstore\bookstore\node_modules\@partFramework\core\main.js:204:23)
+└─> msg_id: 8e2e8f37-9d0a-40f8-8660-4975cdbcec60
+└─> @partFramework/router successfully initialized
+[INFO] 2024.08.14 11:21:33  module  partFramework@loader
+└─> path: EventEmitter.<anonymous> (C:\Users\armin\OneDrive\دسکتاپ\Project\bookstore\bookstore\node_modules\@partFramework\core\main.js:147:23)
+└─> msg_id: b08a4377-892c-4ea2-9d4b-869bf68adb85
+└─> Controller - 'sampleController' - id: sample-controller
+[INFO] 2024.08.14 11:21:33  module  partFramework@loader
+└─> path: EventEmitter.<anonymous> (C:\Users\armin\OneDrive\دسکتاپ\Project\bookstore\bookstore\node_modules\@partFramework\core\main.js:147:23)
+└─> msg_id: b64cfdaa-ba69-4067-a116-3041d8398e35
+└─> Autoload - '1' controllers loaded.
