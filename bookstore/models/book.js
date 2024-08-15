@@ -1,15 +1,5 @@
-class Book {
-  constructor(
-    id,
-    name,
-    author,
-    publishyear,
-    price,
-    abstract,
-    tags,
-    count,
-    imagePath
-  ) {
+module.exports = class Book {
+  constructor(id, name, author, publishyear, price, abstract, tags, count, imagePath) {
     this.id = id;
     this.name = name;
     this.author = author;
@@ -21,7 +11,3 @@ class Book {
     this.imagePath = imagePath;
   }
 }
-
-module.exports = {
-  Book,
-};
