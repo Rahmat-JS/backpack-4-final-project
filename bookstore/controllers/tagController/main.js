@@ -7,8 +7,20 @@ exports.controller = class TagController extends BaseController {
     
   }
 
-  sampleFirstMethod(args) {
-    return 'hello world';
+  async create(body) {
+
+  }
+
+  async readAll() {
+
+  }
+
+  async update(body) {
+
+  }
+
+  async delete(params) {
+
   }
 }
 

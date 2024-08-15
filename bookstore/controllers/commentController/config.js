@@ -2,23 +2,23 @@ module.exports = {
   name: 'comment-controller',
   path: './main.js',
   handlers: {
-    sampleFirstMethod: {
+    leaveComment: {
       needProtocolRef: false,
       params: [
-        '_protocolRef.request.postData',
+        '_protocolRef.request.data'
       ],
     },
-    sampleSecondMethod: {
-      needProtocolRef: true,
-      params: []
-    },
-    http_sendStream: {
+    getComments: {
       needProtocolRef: false,
       params: [
-        '_protocolRef.request',
-        '_protocolRef.response',
-        '_inputData'
+        '_inputData.params'
       ],
-    }
+    },
+    delete: {
+      needProtocolRef: false,
+      params: [
+        '_inputData.params'
+      ],
+    },
   }
 };   

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-alpha.9
+### Added
+* adding controllers and router sturcture to project (#11)
+
 ## 1.0.0-alpha.8
 ### Added
 * added delete file method to fileserver (#9)

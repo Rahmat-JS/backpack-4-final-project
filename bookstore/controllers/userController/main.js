@@ -7,9 +7,8 @@ exports.controller = class UserController extends BaseController {
     
   }
 
-  sampleFirstMethod(args) {
-    return 'hello world';
-  }
+
+
 }
 
 exports.introduceToLoader = BaseController.exportedProperties(require('./schema'), require('./config'));

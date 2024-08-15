@@ -2,23 +2,33 @@ module.exports = {
   name: 'user-controller',
   path: './main.js',
   handlers: {
-    sampleFirstMethod: {
+    create: {
       needProtocolRef: false,
       params: [
-        '_protocolRef.request.postData',
+        '_protocolRef.request.data',
       ],
     },
-    sampleSecondMethod: {
-      needProtocolRef: true,
-      params: []
+    readAll: {
+      needProtocolRef: false,
+      params: [],
     },
-    http_sendStream: {
+    readById: {
       needProtocolRef: false,
       params: [
-        '_protocolRef.request',
-        '_protocolRef.response',
-        '_inputData'
+        '_inputData.params'
       ],
-    }
+    },
+    update: {
+      needProtocolRef: false,
+      params: [
+        '_protocolRef.request.data',
+      ],
+    },
+    delete: {
+      needProtocolRef: false,
+      params: [
+        '_inputData.params'
+      ],
+    },
   }
-};   
+};

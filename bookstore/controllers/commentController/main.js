@@ -7,8 +7,16 @@ exports.controller = class CommentController extends BaseController {
     
   }
 
-  sampleFirstMethod(args) {
-    return 'hello world';
+  async leaveComment(body) {
+
+  }
+
+  async getComments(params) {
+
+  }
+
+  async delete(params) {
+
   }
 }
 
