@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-alpha.7
+### Added
+* added getfile method to fileserver (#8)
+
 ## 1.0.0-alpha.6
 ### Added
 * added base file server (#2)

@@ -15,9 +15,6 @@ const uploadFile = (req, res) => {
             return;
         }
 
-        console.log('Parsed fields:', fields);
-        console.log('Parsed files:', files);
-
         const file = files.file[0];
 
         if (!file || !file.filepath) {
@@ -27,11 +24,7 @@ const uploadFile = (req, res) => {
             return;
         }
 
-        
-        console.log('originalFilename:', file.originalFilename);
-
-        const oldPath = file.filepath; 
-        const originalFilename = file.originalFilename; 
+        const originalFilename = file.originalFilename;
         const ext = path.extname(originalFilename);
 
         if (!originalFilename || !ext) {
@@ -44,7 +37,7 @@ const uploadFile = (req, res) => {
         const newFileName = Date.now() + ext;
         const newPath = path.join(form.uploadDir, newFileName);
 
-        fs.rename(oldPath, newPath, (err) => {
+        fs.rename(file.filepath, newPath, (err) => {
             if (err) {
                 console.error('Error during file rename:', err);
                 res.writeHead(500, {'Content-Type': 'text/plain'});
@@ -52,11 +45,29 @@ const uploadFile = (req, res) => {
                 return;
             }
             res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end('فایل آپلود شد');
+            res.end(`فایل با نام ${newFileName} آپلود شد`);
         });
     });
 };
 
+const getFile = (req, res) => {
+    const fileName = req.url.split('/').pop();
+    const filePath = path.join(__dirname, '../uploads', fileName);
+
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err) {
+            console.error('File does not exist:', fileName);
+            res.writeHead(404, {'Content-Type': 'text/plain'});
+            res.end('فایل یافت نشد');
+            return;
+        }
+
+        res.writeHead(200, {'Content-Type': 'application/octet-stream'});
+        fs.createReadStream(filePath).pipe(res);
+    });
+};
+
 module.exports = {
-    uploadFile
+    uploadFile,
+    getFile
 };
