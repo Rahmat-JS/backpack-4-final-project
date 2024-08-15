@@ -1,8 +1,11 @@
 const http = require('http');
 const router = require('./router/main');
+const port = 3000;
 
-const server = http.createServer(router);
+const server = http.createServer((req, res) => {
+    router(req, res);
+});
 
-server.listen(3000, () => {
-    console.log('Server running at http://127.0.0.1:3000/');
+server.listen(port, () => {
+    console.log(`Server running at http://127.0.0.1:${port}/`);
 });
