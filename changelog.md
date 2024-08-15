@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-alpha.8
+### Added
+* added delete file method to fileserver (#9)
+
 ## 1.0.0-alpha.7
 ### Added
 * added getfile method to fileserver (#8)
