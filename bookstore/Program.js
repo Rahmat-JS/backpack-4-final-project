@@ -5,7 +5,7 @@ class Program {
   #config;
   #servers;
   #controllers = './controllers';
-  #middlewares = './middlewares';
+  // #middlewares = './middlewares';
   #controllerPackages = [];
 
   constructor(projectConfig) {
@@ -32,9 +32,9 @@ class Program {
     }
   }
 
-  async #loadMiddleware() {
-    return this.#core.loader.loadMiddlewaresByPath(this.#middlewares);
-  }
+  // async #loadMiddleware() {
+    // return this.#core.loader.loadMiddlewaresByPath(this.#middlewares);
+  // }
 
   async run() {
     await this.#core.init();
@@ -42,7 +42,7 @@ class Program {
     await this.#loadControllerPackages();
     this.#loadDependencies();
     this.#loadManualControllers();
-    await this.#loadMiddleware();
+    // await this.#loadMiddleware();
     await this.#loadServers();
   }
 }
