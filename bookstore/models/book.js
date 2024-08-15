@@ -10,4 +10,4 @@ module.exports = class Book {
     this.count = count;
     this.imagePath = imagePath;
   }
-}
+};
