@@ -7,6 +7,7 @@ const UserService = require('./services/user');
 const CommentService = require('./services/comment');
 const TagService = require('./services/tag');
 const OrderService = require('./services/order');
+const UtilsService = require('./services/utils');
 const DBService = require('./database/db');
 
 class Program {
@@ -32,6 +33,8 @@ class Program {
     await this.#core.loader.load('CommentService', CommentService);
     await this.#core.loader.load('UserService', UserService);
     await this.#core.loader.load('OrderService', OrderService);
+    await this.#core.loader.load('OrderService', OrderService);
+    await this.#core.loader.load('UtilsService', UtilsService);
 
     await this.#core.loader.loadTwoLevel('atlasInterface', require('partModuleDelta').AI)
       .injectGlobalConfig(require('./configs/global/partModuleDelta.config').introduceToLoader.config.global)
