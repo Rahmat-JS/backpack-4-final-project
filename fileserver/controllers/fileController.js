@@ -1,73 +1,79 @@
-const formidable = require('formidable');
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
+const formidable = require('formidable'); // نیاز به این کتابخانه داریم
 
-const uploadFile = (req, res) => {
+const uploadsDir = path.join(__dirname, '../uploads');
+
+// ذخیره فایل
+function saveFile(req, res) {
     const form = new formidable.IncomingForm();
-    form.uploadDir = path.join(__dirname, '../uploads');
+    form.uploadDir = uploadsDir;
     form.keepExtensions = true;
 
     form.parse(req, (err, fields, files) => {
         if (err) {
-            console.error('Error during form parsing:', err);
-            res.writeHead(500, {'Content-Type': 'text/plain'});
-            res.end('خطای سرور');
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Error uploading file');
             return;
         }
 
         const file = files.file[0];
 
-        if (!file || !file.filepath) {
-            console.error('File or filepath is missing');
-            res.writeHead(400, {'Content-Type': 'text/plain'});
-            res.end('فایلی ارسال نشده است');
+        if (!file || !file.originalFilename) {
+            res.writeHead(400, { 'Content-Type': 'text/plain' });
+            res.end('File upload failed');
             return;
         }
 
-        const originalFilename = file.originalFilename;
-        const ext = path.extname(originalFilename);
+        const newFileName = file.newFilename;
+        const fileExtension = path.extname(file.originalFilename);
+        const finalPath = path.join(uploadsDir, newFileName + fileExtension);
 
-        if (!originalFilename || !ext) {
-            console.error('Invalid filename or extension');
-            res.writeHead(400, {'Content-Type': 'text/plain'});
-            res.end('نام فایل یا پسوند فایل نامعتبر است');
-            return;
-        }
-
-        const newFileName = Date.now() + ext;
-        const newPath = path.join(form.uploadDir, newFileName);
-
-        fs.rename(file.filepath, newPath, (err) => {
+        fs.rename(file.filepath, finalPath, (err) => {
             if (err) {
-                console.error('Error during file rename:', err);
-                res.writeHead(500, {'Content-Type': 'text/plain'});
-                res.end('خطای سرور');
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('Error uploading file');
                 return;
             }
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end(`فایل با نام ${newFileName} آپلود شد`);
+
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('File uploaded successfully');
         });
     });
-};
+}
 
-const getFile = (req, res) => {
-    const fileName = req.url.split('/').pop();
-    const filePath = path.join(__dirname, '../uploads', fileName);
+// گرفتن فایل
+function getFile(fileName, res) {
+    const filePath = path.join(uploadsDir, fileName);
 
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-        if (err) {
-            console.error('File does not exist:', fileName);
-            res.writeHead(404, {'Content-Type': 'text/plain'});
-            res.end('فایل یافت نشد');
-            return;
-        }
-
-        res.writeHead(200, {'Content-Type': 'application/octet-stream'});
+    if (fs.existsSync(filePath)) {
+        res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
         fs.createReadStream(filePath).pipe(res);
-    });
-};
+    } else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('File not found');
+    }
+}
 
-module.exports = {
-    uploadFile,
-    getFile
-};
+// حذف فایل
+function deleteFile(fileName, res) {
+    const filePath = path.join(uploadsDir, fileName);
+
+    if (fs.existsSync(filePath)) {
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('Error deleting file');
+                return;
+            }
+
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('File deleted successfully');
+        });
+    } else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('File not found');
+    }
+}
+
+module.exports = { saveFile, getFile, deleteFile };

@@ -1,7 +1,7 @@
 const http = require('http');
-const { handleRequest } = require('./routes/main');
+const router = require('./router/main');
 
-const server = http.createServer(handleRequest);
+const server = http.createServer(router);
 
 server.listen(3000, () => {
     console.log('Server running at http://127.0.0.1:3000/');
