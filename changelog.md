@@ -8,6 +8,10 @@
 * dependency injection for controls and services to work
 * a simple middleware
 
+## 1.0.0-alpha.11
+### Added
+* fixed file server (#12)
+
 ## 1.0.0-alpha.10
 ### Added
 * fixed file server (#12)
