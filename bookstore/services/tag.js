@@ -1,32 +1,26 @@
+const DBService = require('../database/db');
+
 module.exports = class TagService {
-    #serverError = {
-        data: null,
-        message: `There is a problem on the server side, please contact support.`,
-        statusCode: 500
-    }
 
-    #userNotFoundMessage = {
-        data: null,
-        message: `Item not found`,
-        statusCode: 404
+    #dbService;
+    constructor() {
+        this.#dbService = new DBService();
     }
-
-    constructor() {}
 
     async create(data) {
-
+        return this.#dbService.create('tag', data);
     }
 
-    async readAll(type) {
-
+    async readAll() {
+        return this.#dbService.readAll('tag');
     }
 
     async readById(id) {
-    
+        return this.#dbService.readById('tag', id);
     }
 
     async delete(id) {
-
+        return this.#dbService.delete('tag', id);
     }
 
 };
