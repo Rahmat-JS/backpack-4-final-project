@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-alpha.14
+### Added
+* completing tag service (#14)
+* completing tag controller (#14)
+* adding some template code to db service
+
 ## 1.0.0-alpha.13
 ### Added
 * adding utils service (#16)
