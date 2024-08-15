@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-alpha.6
+### Added
+* added base file server (#2)
+
 ## 1.0.0-alpha.5
 ### Added
 * controller added to project (#7)
