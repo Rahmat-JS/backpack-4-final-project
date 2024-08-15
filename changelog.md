@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.0.0-alpha.11
+## 1.0.0-alpha.13
+### Added
+* adding utils service (#16)
+### Fixed
+* fixed method of exporting models
+
+## 1.0.0-alpha.12
 ### Added
 * services to work with controllers
 * a special service for working with the database        
@@ -9,7 +15,7 @@
 * a simple middleware
 
 ## 1.0.0-alpha.11
-### Added
+### Fixed
 * fixed file server (#12)
 
 ## 1.0.0-alpha.10
