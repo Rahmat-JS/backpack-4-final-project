@@ -14,6 +14,7 @@
     "@partFramework/middlewareManager": "^1.5.0",
     "@partFramework/stubs": "^1.0.0-alpha.1",
     "@partFramework/validator": "^1.0.0",
+    "argon2": "^0.40.3",
     "bookstore": "file:",
     "partFramework": "^10.2.0",
     "partModuleDelta": "^3.0.3",
