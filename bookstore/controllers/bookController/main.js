@@ -21,6 +21,7 @@ exports.controller = class BookController extends BaseController {
 
   async readById(params) {
 
+
   }
 
   async update(body, files) {

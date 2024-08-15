@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0-alpha.10
+### Added
+* fixed file server (#12)
+
+
 ## 1.0.0-alpha.9
 ### Added
 * adding controllers and router sturcture to project (#11)

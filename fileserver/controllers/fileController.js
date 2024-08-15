@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const formidable = require('formidable'); // نیاز به این کتابخانه داریم
+const formidable = require('formidable');
 
 const uploadsDir = path.join(__dirname, '../uploads');
 
-// ذخیره فایل
+
 function saveFile(req, res) {
     const form = new formidable.IncomingForm();
     form.uploadDir = uploadsDir;
@@ -36,26 +36,16 @@ function saveFile(req, res) {
                 return;
             }
 
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('File uploaded successfully');
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({
+                filePath: finalPath,
+                fileName: newFileName + fileExtension
+            }));
         });
     });
 }
 
-// گرفتن فایل
-function getFile(fileName, res) {
-    const filePath = path.join(uploadsDir, fileName);
 
-    if (fs.existsSync(filePath)) {
-        res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
-        fs.createReadStream(filePath).pipe(res);
-    } else {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('File not found');
-    }
-}
-
-// حذف فایل
 function deleteFile(fileName, res) {
     const filePath = path.join(uploadsDir, fileName);
 
@@ -76,4 +66,4 @@ function deleteFile(fileName, res) {
     }
 }
 
-module.exports = { saveFile, getFile, deleteFile };
+module.exports = { saveFile, deleteFile };
