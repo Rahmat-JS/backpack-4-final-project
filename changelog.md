@@ -1,9 +1,16 @@
 # Changelog
 
+## 1.0.0-alpha.11
+### Added
+* services to work with controllers
+* a special service for working with the database        
+* the necessary configurations to work with the Atlas database
+* dependency injection for controls and services to work
+* a simple middleware
+
 ## 1.0.0-alpha.10
 ### Added
 * fixed file server (#12)
-
 
 ## 1.0.0-alpha.9
 ### Added
