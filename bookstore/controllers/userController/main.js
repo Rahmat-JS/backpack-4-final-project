@@ -1,13 +1,52 @@
 const BaseController = require('@partFramework/baseController');
+const User = require('../../models/user');
 
 exports.controller = class UserController extends BaseController {
-  
-  constructor(core, schema, config) {
-    super(core, schema, config);
-    
-  }
 
+    #userService;
+    #utilsService
+    constructor(core, schema, config, UserService, UtilsService) {
+        super(core, schema, config);
+        this.#userService = UserService;
+        this.#utilsService = UtilsService;
+    }
 
+    async create(body) {
+        const newUser = new User(
+            this.#utilsService.getUUID(),
+            body.username,
+            body.email,
+            this.#utilsService.hashPassword(body.password)
+        );
+        return this.#userService.create(newUser);
+    }
+
+    async readById(params) {
+        return this.#userService.readById(params.id);
+    }
+
+    async update(body) {
+        const oldUserData = await this.#userService.readById(body.id);
+        const user = oldUserData.data;
+        if (!user) {
+            return oldUserData;
+        }
+        const updatedUser = new User(
+            body.id,
+            body.username || oldUserData.username,
+            body.email || oldUserData.email,
+            password ? this.#utilsService.hashPassword(body.password) : oldUserData.password
+        );
+        return this.#userService.update(updatedUser);
+    }
+
+    async readAll() {
+        return this.#userService.readAll();
+    }
+
+    async delete(params) {
+        return this.#userService.delete(params.id);
+    }
 
 }
 
