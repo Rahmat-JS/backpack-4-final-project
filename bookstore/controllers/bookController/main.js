@@ -7,8 +7,28 @@ exports.controller = class BookController extends BaseController {
     
   }
 
-  sampleFirstMethod(args) {
-    return 'hello world';
+  async create(body, files) {
+  // async create(body) {
+    return {
+      message: 'book created!',
+      data: body.name
+    }
+  }
+
+  async readAll(queryString) {
+
+  }
+
+  async readById(params) {
+
+  }
+
+  async update(body, files) {
+
+  }
+
+  async delete(params) {
+
   }
 }
 

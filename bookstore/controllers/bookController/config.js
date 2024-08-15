@@ -2,23 +2,37 @@ module.exports = {
   name: 'book-controller',
   path: './main.js',
   handlers: {
-    sampleFirstMethod: {
+    create: {
       needProtocolRef: false,
       params: [
-        '_protocolRef.request.postData',
+        '_protocolRef.request.data',
+        '_protocolRef.request.files'
       ],
     },
-    sampleSecondMethod: {
-      needProtocolRef: true,
-      params: []
-    },
-    http_sendStream: {
+    readAll: {
       needProtocolRef: false,
       params: [
-        '_protocolRef.request',
-        '_protocolRef.response',
-        '_inputData'
+        '_inputData.queryString'
       ],
-    }
+    },
+    readById: {
+      needProtocolRef: false,
+      params: [
+        '_inputData.params'
+      ],
+    },
+    update: {
+      needProtocolRef: false,
+      params: [
+        '_protocolRef.request.data',
+        '_protocolRef.request.files'
+      ],
+    },
+    delete: {
+      needProtocolRef: false,
+      params: [
+        '_inputData.params'
+      ],
+    },
   }
 };   
