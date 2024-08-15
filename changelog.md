@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-alpha.15
+### Added
+* completing user service (#17)
+* completing user controller (#17)
+* adding hash functions to utils service
+
 ## 1.0.0-alpha.14
 ### Added
 * completing tag service (#14)

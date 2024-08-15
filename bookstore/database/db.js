@@ -12,14 +12,14 @@ module.exports = class DBService {
     }
 
     #atlas;
-
     constructor(atlasInterfaceInDB) {
         this.#atlas = atlasInterfaceInDB;
     }
 
     async create(table, data) {
         try {
-            // return await this.#atlas.table(table).create({id: data.id, body: data}); // you should edit this line
+            // const result = await this.#atlas.table(table).create({id: data.id, body: data}); // you should edit this line
+            // return { data: result, message: null, statusCode: 200 }; // you should edit this line
         } catch (error) {
             return this.#serverError;
         }
@@ -27,7 +27,8 @@ module.exports = class DBService {
 
     async readAll(table) {
         try {
-            // return await this.#atlas.table(table).readAll(); // you should edit this line
+            // const result = await this.#atlas.table(table).readAll(); // you should edit this line
+            // return { data: result, message: null, statusCode: 200 }; // you should edit this line
         } catch (error) {
             return this.#serverError;
         }
@@ -39,7 +40,7 @@ module.exports = class DBService {
             // if (item === null) {
             //     return this.#ItemNotFoundMessage;
             // }
-            // return item;
+            // return { data: item, message: null, statusCode: 200 }; // you should edit this line
         } catch (error) {
             return this.#serverError;
         }
@@ -47,7 +48,8 @@ module.exports = class DBService {
 
     async delete(table, id) {
         try {
-            // return await this.#atlas.table(table).delete(id); // you should edit this line
+            // const result = await this.#atlas.table(table).delete(id); // you should edit this line
+            // return { data: result, message: null, statusCode: 200 }; // you should edit this line
         } catch (error) {
             return this.#serverError;
         }
