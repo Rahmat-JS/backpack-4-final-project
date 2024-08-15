@@ -3,10 +3,9 @@ class Book {
     id,
     name,
     author,
-    date,
+    publishyear,
     price,
     abstract,
-    publishyear,
     tags,
     count,
     imagePath
@@ -14,10 +13,9 @@ class Book {
     this.id = id;
     this.name = name;
     this.author = author;
-    this.date = date;
+    this.publishyear = publishyear;
     this.price = price;
     this.abstract = abstract;
-    this.publishyear = publishyear;
     this.tags = tags;
     this.count = count;
     this.imagePath = imagePath;
