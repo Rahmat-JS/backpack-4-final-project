@@ -1,11 +1,11 @@
 {
   "name": "bookstore",
   "version": "1.0.0",
-  "description": "In The Name Of God.",
+  "description":  "An api service for selling books online",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Rahmat Ansari, Rasoul Hosseini, Sajjad Dolatkhah",
+  "license": "MIT"
 }
