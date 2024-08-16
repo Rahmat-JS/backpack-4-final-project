@@ -7,35 +7,16 @@ module.exports = class FileService {
     async uploadFile(filePath) {
         const formData = new FormData();
         formData.append('file', fs.createReadStream(filePath));
-
-        axios.post('http://127.0.0.1:3000/upload', formData, {
-            headers: formData.getHeaders()
-        })
-            .then(response => {
-                return response.data;
-            })
-            .catch(error => {
-                throw new Error(error.message);
+    
+        try {
+            const response = await axios.post('http://127.0.0.1:3000/upload', formData, {
+                headers: formData.getHeaders()
             });
-    }
-
-    async downloadFile(fileName) {
-        axios.get(`http://127.0.0.1:3000/download/${fileName}`, { responseType: 'stream' })
-            .then(response => {
-                const writer = fs.createWriteStream(`./downloaded_${fileName}`);
-                response.data.pipe(writer);
-
-                writer.on('finish', () => {
-                    console.log('File downloaded successfully.');
-                });
-
-                writer.on('error', (err) => {
-                    console.error('Error downloading file:', err.message);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching file:', error.message);
-            });
+            return response.data;
+        } catch (error) {
+            console.error('Error uploading file:', error.message);
+            throw error;
+        }
     }
 
     deleteFile(fileName) {
