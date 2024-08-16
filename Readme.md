@@ -1,5 +1,7 @@
 # Book Store (API project)
 [![fa](https://img.shields.io/badge/click_to_README-FARSI-red.svg)](https://igit.partdp.ir/college/backpack4/musa-ku-taghi/bookstore/-/wikis/READMEFARSI)
+[![todo](https://img.shields.io/badge/list_of-TODO-green.svg)](https://igit.partdp.ir/college/backpack4/musa-ku-taghi/bookstore/-/wikis/todo)
+[![ref](https://img.shields.io/badge/list_of-Refrences-blue.svg)](https://igit.partdp.ir/college/backpack4/musa-ku-taghi/bookstore/-/wikis/refrences)
 
 This repository contains the code for BookStore, an online bookstore application with two sub-programs: a server and a bookstore client.
 
