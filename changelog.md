@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.0.0-alpha.11
+## 1.0.0-alpha.13
+### Added
+* creating create book method
+* added set values.
+* Edit the server file to optimize (#15)
+
+## 1.0.0-alpha.12
 ### Added
 * services to work with controllers
 * a special service for working with the database        
