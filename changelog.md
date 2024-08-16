@@ -1,5 +1,13 @@
 # Changelog
 
+<<<<<<< changelog.md
+## 1.0.0-alpha.16
+### Added
+* creating create book method
+* added set values.
+* Edit the server file to optimize (#15)
+=======
+
 ## 1.0.0-alpha.15
 ### Added
 * completing user service (#17)
@@ -17,6 +25,7 @@
 * adding utils service (#16)
 ### Fixed
 * fixed method of exporting models
+>>>>>>> changelog.md
 
 ## 1.0.0-alpha.12
 ### Added
