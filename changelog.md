@@ -1,12 +1,16 @@
 # Changelog
 
-<<<<<<< changelog.md
+## 1.0.0-alpha.17
+### Added
+* middlewares structure (#18)
+* decorators structure (#18)
+
 ## 1.0.0-alpha.16
 ### Added
 * creating create book method
-* added set values.
+* added set values
+### Changed
 * Edit the server file to optimize (#15)
-=======
 
 ## 1.0.0-alpha.15
 ### Added
@@ -25,7 +29,6 @@
 * adding utils service (#16)
 ### Fixed
 * fixed method of exporting models
->>>>>>> changelog.md
 
 ## 1.0.0-alpha.12
 ### Added

@@ -1,5 +1,7 @@
 const BaseController = require('@partFramework/baseController');
 const User = require('../../models/user');
+const {after} = require('@partFramework/decorators');
+const {passwordDeleter} = require('../../decorators/after')
 
 exports.controller = class UserController extends BaseController {
 
@@ -40,6 +42,7 @@ exports.controller = class UserController extends BaseController {
         return this.#userService.update(updatedUser);
     }
 
+    @after(passwordDeleter)
     async readAll() {
         return this.#userService.readAll();
     }
