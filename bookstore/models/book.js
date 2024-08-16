@@ -11,4 +11,4 @@ module.exports = class Book {
     this.imagePath = imagePath;
     this.imageName = imageName;
   }
-}
+};

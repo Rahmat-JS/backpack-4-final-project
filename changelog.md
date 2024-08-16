@@ -1,10 +1,31 @@
 # Changelog
 
-## 1.0.0-alpha.13
+<<<<<<< changelog.md
+## 1.0.0-alpha.16
 ### Added
 * creating create book method
 * added set values.
 * Edit the server file to optimize (#15)
+=======
+
+## 1.0.0-alpha.15
+### Added
+* completing user service (#17)
+* completing user controller (#17)
+* adding hash functions to utils service
+
+## 1.0.0-alpha.14
+### Added
+* completing tag service (#14)
+* completing tag controller (#14)
+* adding some template code to db service
+
+## 1.0.0-alpha.13
+### Added
+* adding utils service (#16)
+### Fixed
+* fixed method of exporting models
+>>>>>>> changelog.md
 
 ## 1.0.0-alpha.12
 ### Added
@@ -15,7 +36,7 @@
 * a simple middleware
 
 ## 1.0.0-alpha.11
-### Added
+### Fixed
 * fixed file server (#12)
 
 ## 1.0.0-alpha.10
