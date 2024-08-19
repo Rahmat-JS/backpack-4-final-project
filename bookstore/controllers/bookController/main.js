@@ -1,23 +1,22 @@
 const BaseController = require('@partFramework/baseController');
 const fs = require("fs")
-const FileService = require("../../services/file");
 const Book = require('../../models/book');
 const BookService = require('../../services/book')
+const FileService = require("../../services/file");
+const { log } = require('util');
 
 exports.controller = class BookController extends BaseController {
   
   constructor(core, schema, config) {
     super(core, schema, config);
-    const BookService = new BookService();
-    
-    
-  }
+    this.BookService = new BookService();
+    this.FIleservice = new FileService();
+  };
 
   async create(body, files) {
-    
-    const FIleservice = new FileService();
+
     const FrameworkFilePath = files[0].path;
-    const upload_response =  await FIleservice.uploadFile(FrameworkFilePath)
+    const upload_response =  await this.FIleservice.uploadFile(FrameworkFilePath)
     const ImagePath = upload_response['filePath'];
     const ImageName = upload_response['fileName'];
 
@@ -34,8 +33,20 @@ exports.controller = class BookController extends BaseController {
       ImageName
     );
 
-    BookService.create(newbook);
-    fs.unlinkSync(FrameworkFilePath);
+    this.BookService.create(newbook);
+    const fileName = path.basename(FrameworkFilePath);
+
+    fs.unlink(FrameworkFilePath,(err)=>{
+      if(err){
+        console.log(err);
+        
+      }
+      else{
+        console.log(`${fileName} deleted....`);
+
+      }
+    })
+
 
   
   }
