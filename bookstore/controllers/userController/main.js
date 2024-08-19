@@ -7,10 +7,10 @@ exports.controller = class UserController extends BaseController {
 
     #userService;
     #utilsService
-    constructor(core, schema, config, UserService, UtilsService) {
+    constructor(core, schema, config, userService, utilsService) {
         super(core, schema, config);
-        this.#userService = UserService;
-        this.#utilsService = UtilsService;
+        this.#userService = userService;
+        this.#utilsService = utilsService;
     }
 
     async create(body) {

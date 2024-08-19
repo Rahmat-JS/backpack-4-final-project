@@ -5,10 +5,10 @@ exports.controller = class TagController extends BaseController {
 
 	#tagService;
 	#utilsService;
-	constructor(core, schema, config, TagService, UtilsService) {
+	constructor(core, schema, config, TagService, utilsService) {
 		super(core, schema, config);
 		this.#tagService = TagService;
-		this.#utilsService = UtilsService;
+		this.#utilsService = utilsService;
 	}
 
 	async create(body) {

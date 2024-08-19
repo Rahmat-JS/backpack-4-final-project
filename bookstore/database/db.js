@@ -36,17 +36,23 @@ module.exports = class DBService {
 
     async create(table, keysValue, bodyValue) {
         try {
-            const result = await this.#atlas.table(table).insert({
-                keys: keysValue,
-                body: bodyValue
-            });
-            return {
-                data: result,
-                message: null,
-                statusCode: 200
-            }
+            // const result = await this.#atlas.table(table).insert({
+            //     keys: keysValue,
+            //     body: bodyValue
+            // });
+            // return {
+            //     data: result,
+            //     message: null,
+            //     statusCode: 200
+            // }
+
+            // return await this.#atlas.project('Musa_ku_taghi').getTables();
+            return {'message': 'I am here!'}
         } catch (error) {
-            return this.#serverError;
+            return {
+                'default': this.#serverError,
+                'second': 'hey I am here!'
+            };
         }
     }
 

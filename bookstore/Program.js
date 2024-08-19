@@ -31,10 +31,9 @@ class Program {
     await this.#core.loader.load('FileService', FileService);
     await this.#core.loader.load('TagService', TagService);
     await this.#core.loader.load('CommentService', CommentService);
-    await this.#core.loader.load('UserService', UserService);
+    await this.#core.loader.load('userService', UserService);
     await this.#core.loader.load('OrderService', OrderService);
-    await this.#core.loader.load('OrderService', OrderService);
-    await this.#core.loader.load('UtilsService', UtilsService);
+    await this.#core.loader.load('utilsService', UtilsService);
 
     await this.#core.loader.loadTwoLevel('atlasInterface', require('partModuleDelta').AI)
       .injectGlobalConfig(require('./configs/global/partModuleDelta.config').introduceToLoader.config.global)
@@ -64,9 +63,9 @@ class Program {
 
   async run() {
     await this.#core.init();
+    this.#loadDependencies();
     await this.#loadControllers();
     await this.#loadControllerPackages();
-    this.#loadDependencies();
     this.#loadManualControllers();
     await this.#loadMiddleware();
     await this.#loadServers();
