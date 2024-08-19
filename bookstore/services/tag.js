@@ -8,7 +8,9 @@ module.exports = class TagService {
     }
 
     async create(data) {
-        return this.#dbService.create('tag', data);
+        const keysValueForDB = [data.name];
+		const bodyValueForDB = data;
+        return this.#dbService.create('tag', keysValueForDB, bodyValueForDB);
     }
 
     async readAll() {

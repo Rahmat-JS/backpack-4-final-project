@@ -15,7 +15,7 @@ exports.controller = class TagController extends BaseController {
 		const tag = new Tag(
 			this.#utilsService.getUUID(),
 			body.name
-		);
+		);		
 		return this.#tagService.create(tag);
 	}
 

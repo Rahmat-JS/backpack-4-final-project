@@ -16,10 +16,17 @@ module.exports = class DBService {
         this.#atlas = atlasInterfaceInDB;
     }
 
-    async create(table, data) {
+    async create(table, keysValue, bodyValue) {
         try {
-            // const result = await this.#atlas.table(table).create({id: data.id, body: data}); // you should edit this line
-            // return { data: result, message: null, statusCode: 200 }; // you should edit this line
+            const result = await this.#atlas.table(table).insert({
+                keys: keysValue,
+                body: bodyValue
+            });
+            return {
+                data: result,
+                message: null,
+                statusCode: 200
+            }
         } catch (error) {
             return this.#serverError;
         }
