@@ -1,8 +1,10 @@
 module.exports = class DBService {
-    #serverError = {
-        data: null,
-        message: `There is a problem on the server side, please contact support.`,
-        statusCode: 500
+    #serverError(error = '') {
+        return {
+            data: null,
+            message: `There is a problem on the server side, please contact support. ${error}`,
+            statusCode: 500
+        }
     }
 
     #ItemNotFoundMessage = {
@@ -11,47 +13,49 @@ module.exports = class DBService {
         statusCode: 404
     }
 
-    async #initial(atlas) {
+    async #initial() {
         const usageTables = ['tag', 'comment', 'user', 'book', 'order'];
-        const currentTables = atlas.project('Musa_ku_taghi').getTables();
-        usageTables.forEach(async (table) => {
-            if(!currentTables.includes(table)) {
-                const message = await atlas.createTable({
-                    table,
-                    data
-                });
-                console.log(message);
-            }
-            else {
-                console.log(`${table} has created before!`);
-            }
-        });
+        const gettedData = this.#atlas.project('Musa_ku_taghi').getTables();
+        // const currentTables = [];
+        // gettedData.data.body.data.result.forEach(element => currentTables.push(element));
+        // usageTables.forEach(async (table) => {
+        //     if(!currentTables.includes(table)) {
+        //         const message = await atlas.createTable({
+        //             table,
+        //             data
+        //         });
+        //         console.log(message);
+        //     }
+        //     else {
+        //         console.log(`${table} has created before!`);
+        //     }
+        // });
     }
 
     #atlas;
     constructor(atlasInterfaceInDB) {
         this.#atlas = atlasInterfaceInDB;
-        this.#initial(this.#atlas); // for initializing database tables
+        // this.#initial(); // for initializing database tables
     }
 
     async create(table, keysValue, bodyValue) {
         try {
-            // const result = await this.#atlas.table(table).insert({
-            //     keys: keysValue,
-            //     body: bodyValue
-            // });
-            // return {
-            //     data: result,
-            //     message: null,
-            //     statusCode: 200
-            // }
+            const result = await this.#atlas.table(table).insert({
+                keys: keysValue,
+                body: bodyValue
+            });
+            return {
+                data: result,
+                message: null,
+                statusCode: 200
+            }
 
             // return await this.#atlas.project('Musa_ku_taghi').getTables();
-            return {'message': 'I am here!'}
+            // return {'message': 'I am here!'}
         } catch (error) {
             return {
-                'default': this.#serverError,
-                'second': 'hey I am here!'
+                'default': this.#serverError(error.message),
+                'second': error.message
             };
         }
     }
@@ -61,7 +65,7 @@ module.exports = class DBService {
             // const result = await this.#atlas.table(table).readAll(); // you should edit this line
             // return { data: result, message: null, statusCode: 200 }; // you should edit this line
         } catch (error) {
-            return this.#serverError;
+            return this.#serverError(error.message);
         }
     }
 
@@ -73,7 +77,7 @@ module.exports = class DBService {
             // }
             // return { data: item, message: null, statusCode: 200 }; // you should edit this line
         } catch (error) {
-            return this.#serverError;
+            return this.#serverError(error.message);
         }
     }
 
@@ -82,7 +86,7 @@ module.exports = class DBService {
             // const result = await this.#atlas.table(table).delete(id); // you should edit this line
             // return { data: result, message: null, statusCode: 200 }; // you should edit this line
         } catch (error) {
-            return this.#serverError;
+            return this.#serverError(error.message);
         }
     }
 
