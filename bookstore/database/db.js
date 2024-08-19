@@ -40,6 +40,8 @@ module.exports = class DBService {
 
     async create(table, keysValue, bodyValue) {
         try {
+            const temp = this.#atlas;
+            console.log(temp);
             const result = await this.#atlas.table(table).insert({
                 keys: keysValue,
                 body: bodyValue
