@@ -11,9 +11,27 @@ module.exports = class DBService {
         statusCode: 404
     }
 
+    async #initial(atlas) {
+        const usageTables = ['tag', 'comment', 'user', 'book', 'order'];
+        const currentTables = atlas.project('Musa_ku_taghi').getTables();
+        usageTables.forEach(async (table) => {
+            if(!currentTables.includes(table)) {
+                const message = await atlas.createTable({
+                    table,
+                    data
+                });
+                console.log(message);
+            }
+            else {
+                console.log(`${table} has created before!`);
+            }
+        });
+    }
+
     #atlas;
     constructor(atlasInterfaceInDB) {
         this.#atlas = atlasInterfaceInDB;
+        this.#initial(this.#atlas); // for initializing database tables
     }
 
     async create(table, keysValue, bodyValue) {
