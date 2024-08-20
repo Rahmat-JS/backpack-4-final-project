@@ -13,6 +13,14 @@ module.exports = class DBService {
         statusCode: 404
     }
 
+    #successMessage(dataValue) {
+        return {
+            data: dataValue,
+            message: null,
+            statusCode: 200
+        }
+    };
+
     async #initial() {
         const usageTables = ['tag', 'comment', 'user', 'book', 'order'];
         const gettedData = this.#atlas.project('Musa_ku_taghi').getTables();
@@ -44,23 +52,17 @@ module.exports = class DBService {
                 keys: keysValue,
                 body: bodyValue
             });
-            return {
-                data: result,
-                message: null,
-                statusCode: 200
-            }
+            return this.#successMessage(result);
         } catch (error) {
-            return {
-                'default': this.#serverError(error.message),
-                'second': error.message
-            };
+            return this.#serverError(error.message);
         }
     }
 
-    async readAll(table) {
+    async readAll(table, keysValue) {
         try {
-            // const result = await this.#atlas.table(table).readAll(); // you should edit this line
-            // return { data: result, message: null, statusCode: 200 }; // you should edit this line
+            // const result = await this.#atlas.table(table).get();
+            const result = await this.#atlas.table(table).select('id', 'keys', 'body').on('keys').where(keysValue).get();
+            return this.#successMessage(result);
         } catch (error) {
             return this.#serverError(error.message);
         }
@@ -68,23 +70,46 @@ module.exports = class DBService {
 
     async readById(table, id) {
         try {
-            // const item = await this.#atlas.table(table).readById(id); // you should edit this line
-            // if (item === null) {
+            const result = await this.#atlas.table(table).on('id').where(id).get();
+            // if(result.length === 0) {
             //     return this.#ItemNotFoundMessage;
             // }
-            // return { data: item, message: null, statusCode: 200 }; // you should edit this line
+            return this.#successMessage(result);
         } catch (error) {
             return this.#serverError(error.message);
         }
     }
+
+    // async readByKey(table, keysValue) {
+    //     try {
+    //         const result = await this.#atlas.table(table).on('keys').where(keysValue).get();
+    //         return this.#successMessage(result);
+    //     } catch (error) {
+    //         return this.#serverError(error.message);
+    //     }
+    // }
 
     async delete(table, id) {
         try {
-            // const result = await this.#atlas.table(table).delete(id); // you should edit this line
-            // return { data: result, message: null, statusCode: 200 }; // you should edit this line
+            const result = await this.#atlas.table(table).on('id').where(id).delete();
+            return this.#successMessage(result);
         } catch (error) {
             return this.#serverError(error.message);
         }
     }
 
+    async update(table, id, keysValue, bodyValue) {
+        try {
+            const result = await this.#atlas.table(table).on('id').where(id).update({
+                keys: keysValue,
+                body: bodyValue
+            });
+            // if(result.length === 0) {
+            //     return this.#ItemNotFoundMessage;
+            // }
+            return this.#successMessage(result);
+        } catch (error) {
+            return this.#serverError(error.message);
+        }
+    }
 }
