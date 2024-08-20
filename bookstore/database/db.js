@@ -22,9 +22,17 @@ module.exports = class DBService {
     };
     
     async #getTablesNames() {
-        const gettedData = await this.#atlas.getTables();
-        const tablesList = gettedData['body']['data']['result'].map(item => item.key);
-        return tablesList;
+        try {
+            const gettedData = await this.#atlas.getTables();
+            const tablesList = gettedData['body']['data']['result'].map(item => item.key);
+            return tablesList;
+        }
+        catch(error) {
+            if(error.message == 'Request failed with status code 404') {
+                return [];
+            }
+            throw new Error(error.message);
+        }
     }
 
     async #initial() {        
@@ -144,9 +152,8 @@ module.exports = class DBService {
 
     async getAllTables() {
         try {
-            // const result = await this.#getTablesNames();
-            // return this.#successMessage(result);
-            return await this.#atlas.getTables();
+            const result = await this.#getTablesNames();
+            return this.#successMessage(result);
         } catch(error) {
             return this.#serverError(error.message);
         }
