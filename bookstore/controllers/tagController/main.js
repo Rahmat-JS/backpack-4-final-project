@@ -2,12 +2,12 @@ const BaseController = require('@partFramework/baseController');
 const Tag = require('../../models/tag');
 
 exports.controller = class TagController extends BaseController {
-
+	
 	#tagService;
 	#utilsService;
-	constructor(core, schema, config, TagService, utilsService) {
+	constructor(core, schema, config, tagService, utilsService) {
 		super(core, schema, config);
-		this.#tagService = TagService;
+		this.#tagService = tagService;
 		this.#utilsService = utilsService;
 	}
 
@@ -15,7 +15,8 @@ exports.controller = class TagController extends BaseController {
 		const tag = new Tag(
 			this.#utilsService.getUUID(),
 			body.name
-		);		
+		);
+		// return this.#atlas.project('Musa_ku_taghi').getTables();
 		return this.#tagService.create(tag);
 	}
 

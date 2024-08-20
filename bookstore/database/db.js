@@ -20,38 +20,65 @@ module.exports = class DBService {
             statusCode: 200
         }
     };
+    
+    async #initial() {        
+        async function getTablesNames() {
+            const gettedData = await this.#atlas.getTables();
+            const tablesList = gettedData['body']['data']['result'].map(item => item.key);
+            return tablesList;
+        }
 
-    async #initial() {
-        const usageTables = ['tag', 'comment', 'user', 'book', 'order'];
-        const gettedData = this.#atlas.project('Musa_ku_taghi').getTables();
+        try {
+            currentTables = await getTablesNames();
+            const usageTables = ['tag', 'comment', 'user', 'book', 'order'];
+            usageTables.forEach(async (table) => {
+                if(!currentTables.includes(table)) {
+                    this.#atlas.createTable({
+                        "name": table,
+                        "type": "data"
+                      })
+                }
+                else {
+                    console.log(`${table} table already exists!`);
+                }
+            });
+        } catch (err) {
+            console.log(err.message);
+        }
+
+        // const message = await atlas.createTable({
         // const currentTables = [];
         // gettedData.data.body.data.result.forEach(element => currentTables.push(element));
         // usageTables.forEach(async (table) => {
-        //     if(!currentTables.includes(table)) {
-        //         const message = await atlas.createTable({
-        //             table,
+                    // table,
         //             data
         //         });
         //         console.log(message);
         //     }
         //     else {
-        //         console.log(`${table} has created before!`);
-        //     }
+                // console.log(`${table} has created before!`);
+            // }
         // });
     }
 
     #atlas;
-    constructor(atlasInterfaceInDB) {
-        this.#atlas = atlasInterfaceInDB;
-        // this.#initial(); // for initializing database tables
+    constructor(atlasInterface) {
+        this.#atlas = atlasInterface;
+        this.#initial(); // for initializing database tables
     }
 
     async create(table, keysValue, bodyValue) {
         try {
-            const result = await this.#atlas.table(table).insert({
-                keys: keysValue,
-                body: bodyValue
-            });
+            const gettedData = await this.#atlas.getTables();
+            const result = {
+                '1': gettedData['body'],
+                '2': second
+            }
+            // const result = await this.#atlas.table(table).insert({
+            //     keys: keysValue,
+            //     body: bodyValue
+            // });
+            // const result = 'Hey, We done it';
             return this.#successMessage(result);
         } catch (error) {
             return this.#serverError(error.message);

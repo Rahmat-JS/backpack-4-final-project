@@ -1,10 +1,9 @@
-const DBService = require('../database/db');
-
 module.exports = class TagService {
 
     #dbService;
-    constructor() {
-        this.#dbService = new DBService();
+    constructor(dbService) {
+        this.#dbService = dbService;
+        const db = dbService;
     }
 
     async create(data) {
@@ -23,6 +22,13 @@ module.exports = class TagService {
 
     async delete(id) {
         return this.#dbService.delete('tag', id);
+    }
+
+    async getId(tagName) {
+        const receivedData = this.#dbService.readAll('tag', [tagName]);
+
+        const id = receivedData;
+        return id;
     }
 
 };
