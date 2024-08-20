@@ -2,7 +2,7 @@ module.exports = class DBService {
     #serverError(error = '') {
         return {
             data: null,
-            message: `There is a problem on the server side, please contact support. ${error}`,
+            message: `There is a problem on the server side, please contact support.\n"${error}"`,
             statusCode: 500
         }
     }
@@ -13,23 +13,24 @@ module.exports = class DBService {
         statusCode: 404
     }
 
-    #successMessage(dataValue) {
+    #successMessage(dataValue, messageValue = null) {
         return {
             data: dataValue,
-            message: null,
+            message: messageValue,
             statusCode: 200
         }
     };
     
+    async #getTablesNames() {
+        const gettedData = await this.#atlas.getTables();
+        const tablesList = gettedData['body']['data']['result'].map(item => item.key);
+        return tablesList;
+    }
+
     async #initial() {        
-        async function getTablesNames() {
-            const gettedData = await this.#atlas.getTables();
-            const tablesList = gettedData['body']['data']['result'].map(item => item.key);
-            return tablesList;
-        }
 
         try {
-            currentTables = await getTablesNames();
+            const currentTables = await this.#getTablesNames();
             const usageTables = ['tag', 'comment', 'user', 'book', 'order'];
             usageTables.forEach(async (table) => {
                 if(!currentTables.includes(table)) {
@@ -136,6 +137,32 @@ module.exports = class DBService {
             // }
             return this.#successMessage(result);
         } catch (error) {
+            return this.#serverError(error.message);
+        }
+    }
+
+
+    async getAllTables() {
+        try {
+            // const result = await this.#getTablesNames();
+            // return this.#successMessage(result);
+            return await this.#atlas.getTables();
+        } catch(error) {
+            return this.#serverError(error.message);
+        }
+    }
+
+    async dropAllTables() {
+        try {
+            const tableNames = await this.#getTablesNames();
+            tableNames.forEach(async(table) => {
+                this.#atlas.dropTable({
+                    'name': table,
+                    'type': 'data'
+                })
+            });
+            return this.#successMessage(null, 'all tables deleted successfully');
+        } catch(error) {
             return this.#serverError(error.message);
         }
     }

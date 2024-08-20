@@ -5,7 +5,7 @@ module.exports = (router) => {
             router.setRoute('/:id', 'book-controller.readById').method('GET').middleware('iDvalidation');
             router.setRoute('/', 'book-controller.readAll').method('GET');
             router.setRoute('/', 'book-controller.create').method('POST').middleware('validationBookCreate');
-            router.setRoute('', 'book-controller.update').method('PUT').middleware('validationBookUpdate');
+            router.setRoute('/', 'book-controller.update').method('PUT').middleware('validationBookUpdate');
             router.setRoute('/:id', 'book-controller.delete').method('DELETE').middleware('iDvalidation');
             
         });
@@ -40,5 +40,10 @@ module.exports = (router) => {
             router.setRoute('', 'order-controller.create').method('POST').middleware('validationOrderCreate');
             router.setRoute('', 'order-controller.approval').method('PUT').middleware('validationOrderApproval');
             router.setRoute('/:id', 'order-controller.delete').method('DELETE').middleware('iDvalidation');
+        });
+
+        router.prefix('admin').setGroup(function () {
+            router.setRoute('tables', 'admin-controller.getAllTables').method('GET');
+            router.setRoute('tables', 'admin-controller.dropAllTables').method('DELETE');
         });
 };
