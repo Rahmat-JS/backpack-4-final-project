@@ -36,12 +36,12 @@ class Program {
       .injectInstanceConfig(atlasInterfaceInstanceConfig);
       
     await this.#core.loader.load('dbService', DBService).injectRef('atlasInterface');
-    await this.#core.loader.load('bookService', BookService);
-    await this.#core.loader.load('fileService', FileService);
+    await this.#core.loader.load('bookService', BookService).injectRef('dbService');
     await this.#core.loader.load('tagService', TagService).injectRef('dbService');
-    await this.#core.loader.load('commentService', CommentService);
-    await this.#core.loader.load('userService', UserService);
-    await this.#core.loader.load('orderService', OrderService);
+    await this.#core.loader.load('commentService', CommentService).injectRef('dbService');
+    await this.#core.loader.load('userService', UserService).injectRef('dbService');
+    await this.#core.loader.load('orderService', OrderService).injectRef('dbService');
+    await this.#core.loader.load('fileService', FileService);
     await this.#core.loader.load('utilsService', UtilsService);
   
   }

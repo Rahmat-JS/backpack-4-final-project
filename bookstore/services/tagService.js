@@ -31,7 +31,7 @@ module.exports = class TagService {
 
     async getId(tagName) { // return id by tag name
         const receivedData = this.#dbService.readAll('tag', [tagName]);
-
+        // TODO
         const id = receivedData;
         return id;
     }

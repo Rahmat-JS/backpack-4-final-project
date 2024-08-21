@@ -16,6 +16,10 @@ module.exports = {
     },
     getComments: {
       needProtocolRef: false,
+      params: [],
+    },
+    getCommentById: {
+      needProtocolRef: false,
       params: [
         '_inputData.params'
       ],
