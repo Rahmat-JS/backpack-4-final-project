@@ -1,3 +1,5 @@
+**/main.transpiled.min.js
+**/main.transpiled.min.js.map
 node_modules
 logs
 test

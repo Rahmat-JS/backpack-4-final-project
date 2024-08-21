@@ -1,8 +1,6 @@
-exports.introduceToLoader = {
-    config: {
-        instance : {
-            table: 'test', // optional
-            seprator: '_'
-          }
+module.exports = {
+    instance : {
+        table: 'test', // optional
+        seprator: '_'
     }
 }

@@ -1,14 +1,17 @@
 const PartFramework = require('partFramework');
 
 // services
-const BookService = require('./services/book');
-const FileService = require('./services/file');
-const UserService = require('./services/user');
-const CommentService = require('./services/comment');
-const TagService = require('./services/tag');
-const OrderService = require('./services/order');
-const UtilsService = require('./services/utils');
-const DBService = require('./database/db');
+const BookService = require('./services/bookService');
+const FileService = require('./services/fileService');
+const UserService = require('./services/userService');
+const CommentService = require('./services/commentService');
+const TagService = require('./services/tagService');
+const OrderService = require('./services/orderService');
+const UtilsService = require('./services/utilsService');
+const DBService = require('./database/dbService');
+
+const atlasInterfaceGlobalConfig = require('./configs/global/partModuleDelta.config').global;
+const atlasInterfaceInstanceConfig = require('./configs/instance/partModuleDelta.config').instance;
 
 class Program {
   #core;
@@ -27,21 +30,20 @@ class Program {
   #loadManualControllers() {}
 
   async #loadDependencies() {
-    await this.#core.loader.load('BookService', BookService);
-    await this.#core.loader.load('FileService', FileService);
-    await this.#core.loader.load('TagService', TagService);
-    await this.#core.loader.load('CommentService', CommentService);
-    await this.#core.loader.load('UserService', UserService);
-    await this.#core.loader.load('OrderService', OrderService);
-    await this.#core.loader.load('OrderService', OrderService);
-    await this.#core.loader.load('UtilsService', UtilsService);
-
+    
     await this.#core.loader.loadTwoLevel('atlasInterface', require('partModuleDelta').AI)
-      .injectGlobalConfig(require('./configs/global/partModuleDelta.config').introduceToLoader.config.global)
-      .injectInstanceConfig(require('./configs/instance/partModuleDelta.config').introduceToLoader.config.instance);
-
-    await this.#core.loader.load('atlasInterfaceInDB', DBService)
-      .injectRef('atlasInterface'); // manual load
+      .injectGlobalConfig(atlasInterfaceGlobalConfig)
+      .injectInstanceConfig(atlasInterfaceInstanceConfig);
+      
+    await this.#core.loader.load('dbService', DBService).injectRef('atlasInterface');
+    await this.#core.loader.load('bookService', BookService);
+    await this.#core.loader.load('fileService', FileService);
+    await this.#core.loader.load('tagService', TagService).injectRef('dbService');
+    await this.#core.loader.load('commentService', CommentService);
+    await this.#core.loader.load('userService', UserService);
+    await this.#core.loader.load('orderService', OrderService);
+    await this.#core.loader.load('utilsService', UtilsService);
+  
   }
 
   async #loadControllers() {
@@ -64,9 +66,9 @@ class Program {
 
   async run() {
     await this.#core.init();
+    this.#loadDependencies();
     await this.#loadControllers();
     await this.#loadControllerPackages();
-    this.#loadDependencies();
     this.#loadManualControllers();
     await this.#loadMiddleware();
     await this.#loadServers();

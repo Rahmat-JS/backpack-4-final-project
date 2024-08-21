@@ -1,9 +1,8 @@
 const BaseController = require('@partFramework/baseController');
 const fs = require("fs")
-const Book = require('../../models/book');
-const BookService = require('../../services/book')
-const FileService = require("../../services/file");
-const { log } = require('util');
+const FileService = require("../../services/fileService");
+const Book = require('../../models/bookModel');
+const BookService = require('../../services/bookService')
 
 exports.controller = class BookController extends BaseController {
   

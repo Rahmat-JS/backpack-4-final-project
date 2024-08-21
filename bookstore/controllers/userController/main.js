@@ -1,5 +1,5 @@
 const BaseController = require('@partFramework/baseController');
-const User = require('../../models/user');
+const User = require('../../models/userModel');
 const {after} = require('@partFramework/decorators');
 const {passwordDeleter} = require('../../decorators/after')
 
@@ -7,10 +7,10 @@ exports.controller = class UserController extends BaseController {
 
     #userService;
     #utilsService
-    constructor(core, schema, config, UserService, UtilsService) {
+    constructor(core, schema, config, userService, utilsService) {
         super(core, schema, config);
-        this.#userService = UserService;
-        this.#utilsService = UtilsService;
+        this.#userService = userService;
+        this.#utilsService = utilsService;
     }
 
     async create(body) {
