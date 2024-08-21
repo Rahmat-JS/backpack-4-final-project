@@ -15,6 +15,11 @@ exports.controller = class CommentController extends BaseController {
 
   }
 
+
+  async publishedComment(body) {
+    
+  }
+
   async delete(params) {
 
   }
