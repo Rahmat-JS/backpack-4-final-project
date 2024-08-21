@@ -1,5 +1,5 @@
 const BaseController = require('@partFramework/baseController');
-const User = require('../../models/user');
+const User = require('../../models/userModel');
 const {after} = require('@partFramework/decorators');
 const {passwordDeleter} = require('../../decorators/after')
 

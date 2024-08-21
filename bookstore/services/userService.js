@@ -1,10 +1,8 @@
-const DBService = require('../database/db');
-
 module.exports = class UserService {
 
     #dbService;
-    constructor() {
-        this.#dbService = new DBService();
+    constructor(dbService) {
+        this.#dbService = dbService;
     }
 
     async create(data) {
@@ -24,7 +22,7 @@ module.exports = class UserService {
         if(deleteResult.statusCode === 500) {
             return deleteResult;
         }
-        return this.#dbService.create('user', data);
+        return this.#dbService.create('user', data); 
     }
 
     async delete(id) {

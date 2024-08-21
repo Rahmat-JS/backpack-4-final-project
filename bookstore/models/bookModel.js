@@ -1,6 +1,5 @@
 module.exports = class Book {
-  constructor(id, name, author, publishyear, price, abstract, tags, count, imagePath, imageName) {
-    this.id = id;
+  constructor(name, author, publishyear, price, abstract, tags, count, imagePath, imageName) {
     this.name = name;
     this.author = author;
     this.publishyear = publishyear;

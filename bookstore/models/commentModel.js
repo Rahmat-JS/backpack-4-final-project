@@ -1,6 +1,5 @@
 module.exports = class Comment {
-  constructor(id, userid, bookid, content) {
-    this.id = id;
+  constructor(userid, bookid, content) {
     this.userid = userid;
     this.bookid = bookid;
     this.content = content;

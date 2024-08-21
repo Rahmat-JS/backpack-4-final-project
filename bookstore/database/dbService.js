@@ -54,20 +54,6 @@ module.exports = class DBService {
         } catch (err) {
             console.log(err.message);
         }
-
-        // const message = await atlas.createTable({
-        // const currentTables = [];
-        // gettedData.data.body.data.result.forEach(element => currentTables.push(element));
-        // usageTables.forEach(async (table) => {
-                    // table,
-        //             data
-        //         });
-        //         console.log(message);
-        //     }
-        //     else {
-                // console.log(`${table} has created before!`);
-            // }
-        // });
     }
 
     #atlas;
@@ -78,26 +64,19 @@ module.exports = class DBService {
 
     async create(table, keysValue, bodyValue) {
         try {
-            const gettedData = await this.#atlas.getTables();
-            const result = {
-                '1': gettedData['body'],
-                '2': second
-            }
-            // const result = await this.#atlas.table(table).insert({
-            //     keys: keysValue,
-            //     body: bodyValue
-            // });
-            // const result = 'Hey, We done it';
+            const result = await this.#atlas.table(table).insert({
+                keys: keysValue,
+                body: bodyValue
+            });
             return this.#successMessage(result);
         } catch (error) {
             return this.#serverError(error.message);
         }
     }
 
-    async readAll(table, keysValue) {
+    async readAll(table) {
         try {
-            // const result = await this.#atlas.table(table).get();
-            const result = await this.#atlas.table(table).select('id', 'keys', 'body').on('keys').where(keysValue).get();
+            const result = await this.#atlas.table(table).select('id', 'keys', 'body').where('*').get();
             return this.#successMessage(result);
         } catch (error) {
             return this.#serverError(error.message);
@@ -107,9 +86,6 @@ module.exports = class DBService {
     async readById(table, id) {
         try {
             const result = await this.#atlas.table(table).on('id').where(id).get();
-            // if(result.length === 0) {
-            //     return this.#ItemNotFoundMessage;
-            // }
             return this.#successMessage(result);
         } catch (error) {
             return this.#serverError(error.message);
@@ -140,9 +116,6 @@ module.exports = class DBService {
                 keys: keysValue,
                 body: bodyValue
             });
-            // if(result.length === 0) {
-            //     return this.#ItemNotFoundMessage;
-            // }
             return this.#successMessage(result);
         } catch (error) {
             return this.#serverError(error.message);

@@ -1,14 +1,14 @@
 const PartFramework = require('partFramework');
 
 // services
-const BookService = require('./services/book');
-const FileService = require('./services/file');
-const UserService = require('./services/user');
-const CommentService = require('./services/comment');
-const TagService = require('./services/tag');
-const OrderService = require('./services/order');
-const UtilsService = require('./services/utils');
-const DBService = require('./database/db');
+const BookService = require('./services/bookService');
+const FileService = require('./services/fileService');
+const UserService = require('./services/userService');
+const CommentService = require('./services/commentService');
+const TagService = require('./services/tagService');
+const OrderService = require('./services/orderService');
+const UtilsService = require('./services/utilsService');
+const DBService = require('./database/dbService');
 
 const atlasInterfaceGlobalConfig = require('./configs/global/partModuleDelta.config').global;
 const atlasInterfaceInstanceConfig = require('./configs/instance/partModuleDelta.config').instance;
@@ -43,14 +43,6 @@ class Program {
     await this.#core.loader.load('userService', UserService);
     await this.#core.loader.load('orderService', OrderService);
     await this.#core.loader.load('utilsService', UtilsService);
-
-
-    // await this.#core.loader.loadTwoLevel('atlasInterface', require('partModuleDelta').AI)
-    //   .injectGlobalConfig(require('./configs/global/partModuleDelta.config').introduceToLoader.config.global)
-    //   .injectInstanceConfig(require('./configs/instance/partModuleDelta.config').introduceToLoader.config.instance);
-
-    // await this.#core.loader.load('atlasInterfaceInDB', DBService)
-    //   .injectRef('atlasInterface'); // manual load
   
   }
 

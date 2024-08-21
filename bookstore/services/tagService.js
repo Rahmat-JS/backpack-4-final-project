@@ -3,11 +3,10 @@ module.exports = class TagService {
     #dbService;
     constructor(dbService) {
         this.#dbService = dbService;
-        const db = dbService;
     }
 
     async create(data) {
-        const keysValueForDB = [data.name];
+        const keysValueForDB = ['*', `name_${data.name}`];
 		const bodyValueForDB = data;
         return this.#dbService.create('tag', keysValueForDB, bodyValueForDB);
     }
@@ -20,11 +19,17 @@ module.exports = class TagService {
         return this.#dbService.readById('tag', id);
     }
 
+    async update(id, data) {
+        const keysValueForDB = ['*', `name_${data.name}`];
+		const bodyValueForDB = data;
+        return this.#dbService.update('tag', id, keysValueForDB, bodyValueForDB);
+    }
+
     async delete(id) {
         return this.#dbService.delete('tag', id);
     }
 
-    async getId(tagName) {
+    async getId(tagName) { // return id by tag name
         const receivedData = this.#dbService.readAll('tag', [tagName]);
 
         const id = receivedData;
