@@ -10,16 +10,17 @@ module.exports = (router) => {
         });
         
         router.prefix('api/tags').setGroup(function () {
-            router.setRoute('', 'tag-controller.readAll').method('GET');
+            router.setRoute('/', 'tag-controller.readAll').method('GET');
             router.setRoute('/:id', 'tag-controller.readById').method('GET');
-            router.setRoute('', 'tag-controller.create').method('POST').middleware('validationTagCreate');
-            router.setRoute('', 'tag-controller.update').method('PUT').middleware('validationTagUpdate');
+            router.setRoute('/', 'tag-controller.create').method('POST').middleware('validationTagCreate');
+            router.setRoute('/', 'tag-controller.update').method('PUT').middleware('validationTagUpdate');
             router.setRoute('/:id', 'tag-controller.delete').method('DELETE').middleware('iDvalidation');
         });
 
         router.prefix('api/comments').setGroup(function () {
             router.setRoute('/:id', 'comment-controller.getComments').method('GET').middleware('iDvalidation');
-            router.setRoute('', 'comment-controller.leaveComment').method('POST').middleware('validationCommentCreate');
+            router.setRoute('/', 'comment-controller.leaveComment').method('POST').middleware('validationCommentCreate');
+            router.setRoute('/', 'comment-controller.publishedComment').method('PUT');
             router.setRoute('/:id', 'comment-controller.delete').method('DELETE').middleware('iDvalidation');
 
         });

@@ -10,27 +10,27 @@ exports.controller = class TagController extends BaseController {
 	}
 
 	async create(body) {
-		const tag = new Tag(
+		const newTag = new Tag(
 			body.name
 		);
-		return this.#tagService.create(tag);
+		return await this.#tagService.create(newTag);
 	}
 
 	async readAll() {
-		return this.#tagService.readAll();
+		return await this.#tagService.readAll();
 	}
 
 	async readById(params) {
-		return this.#tagService.readById(params.id);
+		return await this.#tagService.readById(params.id);
 	}
 
 	async update(body) {
 		const udpatedTag = new Tag(body.name);
-		return this.#tagService.update(body.id, udpatedTag);
+		return await this.#tagService.update(body.id, udpatedTag);
 	}
 
 	async delete(params) {
-		return this.#tagService.delete(params.id);
+		return await this.#tagService.delete(params.id);
 	}
 }
 
