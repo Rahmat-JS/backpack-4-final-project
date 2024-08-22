@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-alpha.23
+### Added
+* connector of book system to database (CRUD for `book`) (#27)
+
+**NOTE**: So far we have implemented the `CRUD system` without **updates**. According to this update, it requires the use of in-service functions such as readById. This operation was postponed until after the implementation of the `decorator`!
+
 ## 1.0.0-alpha.22
 ### Added
 * connector of user system to database (CRUD for `user`) (#26)
