@@ -59,32 +59,16 @@ module.exports = class DBService {
         }
     }
 
-    async #initial() {        
-        try {
-            const currentTables = await this.#getTablesNames();
-            const usageTables = ['tag', 'comment', 'user', 'book', 'order'];
-            usageTables.forEach(async (table) => {
-                if(!currentTables.includes(table)) {
-                    this.#atlas.createTable({
-                        "name": table,
-                        "type": "data"
-                      })
-                }
-                else {
-                    console.log(`${table} table already exists!`);
-                }
-            });
-        } catch (err) {
-            console.log(err.message);
-        }
-    }
-
     #atlas;
     constructor(atlasInterface) {
         this.#atlas = atlasInterface;
-        this.#initial(); // for initializing database tables
+        /* NOTE:
+        We could not put the initialize function to create the tables in the
+        constructor because it was not possible to call this function as await.
+        For this reason, we made a function with a separate route.
+        */
     }
-
+    
     async create(table, keysValue, bodyValue) {
         try {
             const result = await this.#atlas.table(table).insert({
@@ -100,17 +84,17 @@ module.exports = class DBService {
             return this.#serverError(error.message);
         }
     }
-
+    
     async readAll(table) {
         try {
             const result = await this.#atlas.table(table).select('id', 'keys', 'body').where('*').get();
             const {list, count} = this.#customizeListOfOutput(result);
-            return this.#successMessage(list, `${count} item founded`);
+            return this.#successMessage(list, `${count} item found`);
         } catch (error) {
             return this.#serverError(error.message);
         }
     }
-
+    
     async readById(table, id) {
         try {
             const result = await this.#atlas.table(table).on('id').where(id).get();
@@ -118,22 +102,23 @@ module.exports = class DBService {
             if(!status) {
                 return this.#itemNotFoundMessage(table);
             }
-            return this.#successMessage(item, `${table} founded successfully`);
+            return this.#successMessage(item, `${table} found successfully`);
         } catch (error) {
             return this.#serverError(error.message);
         }
     }
-
+    
     async readByKey(table, keysValue) {
         try {
             const result = await this.#atlas.table(table).on('keys').where(keysValue).get();
             const {list, count} = this.#customizeListOfOutput(result);
-            return this.#successMessage(list, `${count} item founded`);
+            
+            return this.#successMessage(list, `${count} item found`);
         } catch (error) {
             return this.#serverError(error.message);
         }
     }
-
+    
     async delete(table, id) {
         try {
             const result = await this.#atlas.table(table).on('id').where(id).delete();
@@ -142,19 +127,42 @@ module.exports = class DBService {
             return this.#serverError(error.message);
         }
     }
-
-    async update(table, id, keysValue, bodyValue) { // TODO: you should customize output
+    
+    async update(table, id, keysValue, bodyValue) {
         try {
             const result = await this.#atlas.table(table).on('id').where(id).update({
                 keys: keysValue,
                 body: bodyValue
             });
-            return this.#successMessage(result);
+            if(result['body']['data']['result']['success'].length == 0) {
+                return this.#itemNotFoundMessage(table);
+            }
+            return this.#successMessage(null, `${table} updated successfully`);
         } catch (error) {
             return this.#serverError(error.message);
         }
     }
-
+    
+    async createAllTables() {        
+        try {
+            const currentTables = await this.#getTablesNames();
+            const usageTables = ['tag', 'comment', 'user', 'book', 'order'];
+            usageTables.forEach(async (table) => {
+                if(!currentTables.includes(table)) {
+                    this.#atlas.createTable({
+                        "name": table,
+                        "type": "data"
+                      })
+                }
+                else {
+                    console.log(`${table} table already exists!`);
+                }
+            });
+            return this.#successMessage(null, 'all tables created successfully');
+        } catch (error) {
+            return this.#serverError(error.message);
+        }
+    }
 
     async getAllTables() {
         try {
@@ -164,7 +172,7 @@ module.exports = class DBService {
             return this.#serverError(error.message);
         }
     }
-
+    
     async dropAllTables() {
         try {
             const tableNames = await this.#getTablesNames();

@@ -12,6 +12,10 @@ exports.controller = class AdminController extends BaseController {
     return await this.#dbService.getAllTables();
   }
 
+  async createAllTables() {
+    return await this.#dbService.createAllTables();
+  }
+
   async dropAllTables() {
     return await this.#dbService.dropAllTables();
   }

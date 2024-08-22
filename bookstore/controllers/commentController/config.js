@@ -14,7 +14,7 @@ module.exports = {
         '_protocolRef.request.data'
       ],
     },
-    getComments: {
+    getAllComments: {
       needProtocolRef: false,
       params: [],
     },

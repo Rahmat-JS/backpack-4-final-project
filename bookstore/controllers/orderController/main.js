@@ -20,17 +20,39 @@ exports.controller = class OrderController extends BaseController {
 
     async create(body) {
         const dateTimeNow = new Date(); // current date and time
-        const totalPrice = 0;
+        let totalPrice = 0;
         const bookArray = [];
 
-        body['booksInformations'].forEach(async (element) => { // for each book in order
-            const book = await this.#getBookWhenToBuyInstance(
-                element.id,
-                element.count
+        // if user not exist
+        const userResponse = await this.#userService.readById(body.userId);
+        if(userResponse.statusCode != 200)
+            return userResponse;
+
+        for(const bookIdAndCount of body['booksInformations']) { // for each book in order
+
+            // if book not exist
+            const bookResponse = await this.#bookService.readById(bookIdAndCount['id']);
+            if(bookResponse.statusCode != 200)
+                return bookResponse;
+
+            
+            const readBook = bookResponse['data']['body'];
+            // if number of books not enough
+            if(Number(readBook['count']) < Number(bookIdAndCount['count']))
+                return {
+                    'data': null,
+                    'message': `The number of books with ID ${bookIdAndCount.id} is not enough`,
+                    'statusCode': 400
+                }
+
+            const bookWhenBuy = await this.#getBookWhenToBuyInstance(
+                bookIdAndCount.id,
+                bookIdAndCount.count
             );
-            bookArray.push(book);
-            totalPrice += (book.price * book.count);
-        });
+            bookArray.push(bookWhenBuy);
+            totalPrice += (Number(readBook['price']) * Number(bookIdAndCount.count));
+        }
+
         
         const newOrder = new Order(
             body.userId,
@@ -41,7 +63,7 @@ exports.controller = class OrderController extends BaseController {
         );
 
         const result = await this.#orderService.create(newOrder);
-        this.#userService.addOrder(body.userId, result.data.id);
+        this.#userService.addOrder(body.userId, result['data']);
         return result;
     }
 
@@ -53,8 +75,12 @@ exports.controller = class OrderController extends BaseController {
         return await this.#orderService.readById(params.id);
     }
 
-    async approval(body) {        
-        const orderToApproval = this.readById(body.id).data.body; // get order to approval
+    async approval(body) {
+        const orderToApprovalData = await this.#orderService.readById(body.id); // get order to approval
+        if(orderToApprovalData.statusCode != 200)
+            return orderToApprovalData; // 404 or 500 response
+
+        const orderToApproval = orderToApprovalData['data']['body'];
         orderToApproval.confirmed = body.confirmed == 'true' ? true : false;
         return await this.#orderService.update(body.id, orderToApproval);
     }

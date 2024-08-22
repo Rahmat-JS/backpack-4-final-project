@@ -31,23 +31,22 @@ exports.controller = class UserController extends BaseController {
         return await this.#userService.readById(params.id);
     }
 
-    async update(body) { // TODO: you should complete this after implementing decorators
-        const oldUserData = await this.#userService.readById(body.id).data;
-        const user = oldUserData.body;
-        if (!user) {
-            return await oldUserData;
-        }
+    async update(body) {
+        const result = await this.#userService.readById(body.id);
+        if(result.statusCode != 200)
+            return result;
+
+        const oldUser = result['data']['body'];
         const updatedUser = new User(
-            body.firstName || oldUserData.firstName,
-            body.lastName || oldUserData.lastName,
-            body.username || oldUserData.username,
-            body.email || oldUserData.email,
-            body.password ? await this.#utilsService.hashPassword(body.password) : oldUserData.password
+            body.firstName || oldUser.firstName,
+            body.lastName || oldUser.lastName,
+            body.username || oldUser.username,
+            body.email || oldUser.email,
+            body.password ? await this.#utilsService.hashPassword(body.password) : oldUser.password
         );
         return await this.#userService.update(body.id, updatedUser);
     }
 
-    // @after(AfterDecorators.somefunction)
     async readAll() {
         return await this.#userService.readAll();
     }
@@ -57,22 +56,35 @@ exports.controller = class UserController extends BaseController {
     }
 
     async ordersByUserId(params) {
+        const userData = await this.#userService.readById(params.id);
+        
+        if(userData.statusCode != 200) {
+            return userData;
+        }
+             
         const orders = [];
-
-        return {"message": "Not implemented yet!"};
-
-        const user = await this.#userService.readById(params.id);
-        
-        // TODO: if user not found return 404
-        
-        user.orders.forEach(async (orderId) => {
-            const {id, keys, body} = await this.#orderService.readById(orderId);
-            orders.push({
-                'id': id,
-                'details': body
-            });
-        });
-        return orders;
+        const orderIds = userData['data']['body']['orders'];
+        for(const orderId of orderIds) {
+            const orderResponse = await this.#orderService.readById(orderId);
+            if(orderResponse.statusCode != 200) {
+                orders.push({
+                    'id': orderId,
+                    'details': 'not found'
+                });
+            }
+            else {
+                const {id, keys, body} = orderResponse['data'];
+                orders.push({
+                    'id': id,
+                    'details': body
+                });
+            }
+        }
+        return {
+            "data": orders,
+            "message": `${orders.length} order found successfully`,
+            'statusCode': 200
+        };
     }
 }
 

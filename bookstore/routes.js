@@ -19,7 +19,7 @@ module.exports = (router) => {
         }).controller('tag-controller');
 
         router.prefix('api/comments').setGroup(function () {
-            router.setRoute('/', 'getComments').method('GET');
+            router.setRoute('/', 'getAllComments').method('GET');
             router.setRoute('/:id', 'getCommentById').method('GET');
             router.setRoute('/', 'leaveComment').method('POST').middleware('validationCommentCreate');
             router.setRoute('/', 'publishedComment').method('PUT');
@@ -45,6 +45,7 @@ module.exports = (router) => {
 
         router.prefix('api/admin').setGroup(function () {
             router.setRoute('tables', 'getAllTables').method('GET');
+            router.setRoute('tables', 'createAllTables').method('POST');
             router.setRoute('tables', 'dropAllTables').method('DELETE');
         }).controller('admin-controller');
 };
