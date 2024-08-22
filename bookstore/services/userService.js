@@ -6,10 +6,12 @@ module.exports = class UserService {
     }
 
     async create(data) {
-        return this.#dbService.create('user', data);
+        const keysValueForDB = ['*', `username_${data.username}`, `email_${data.email}`];
+		const bodyValueForDB = data;
+        return this.#dbService.create('user', keysValueForDB, bodyValueForDB);
     }
 
-    async readAll(type) {
+    async readAll() {
         return this.#dbService.readAll('user');
     }
 
@@ -17,16 +19,23 @@ module.exports = class UserService {
         return this.#dbService.readById('user', id);
     }
 
-    async update(data) {
-        const deleteResult = this.#dbService.delete('user', data.id);
-        if(deleteResult.statusCode === 500) {
-            return deleteResult;
-        }
-        return this.#dbService.create('user', data); 
+    async update(id, data) {
+        const keysValueForDB = ['*', `username_${data.username}`, `email_${data.email}`];
+		const bodyValueForDB = data;
+        return this.#dbService.update('user', id, keysValueForDB, bodyValueForDB); 
     }
 
     async delete(id) {
         return this.#dbService.delete('user', id);
+    }
+
+    async addOrder(userId, orderId) {
+        const user = this.#dbService.readById('user', userId);
+
+        // TODO: if user not found return 404
+
+        user.orders.push(orderId);
+        return this.#dbService.update('user', user)
     }
 
 };

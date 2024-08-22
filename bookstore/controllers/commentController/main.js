@@ -4,9 +4,11 @@ const Comment = require('../../models/commentModel');
 exports.controller = class CommentController extends BaseController {
 
     #commentService;
-    constructor(core, schema, config, commentService) {
+    #bookService;
+    constructor(core, schema, config, commentService, bookService) {
         super(core, schema, config);
         this.#commentService = commentService;
+        this.#bookService = bookService;
     }
 
     async leaveComment(body) {
@@ -18,7 +20,10 @@ exports.controller = class CommentController extends BaseController {
             dateTimeNow,
             false // no published default
         );
-        return await this.#commentService.create(newComment);
+        
+        const result = await this.#commentService.create(newComment);
+        this.#bookService.addComment(body.bookid, result.data.id);
+        return result;
     }
 
     async getComments() {
