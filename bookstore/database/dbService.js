@@ -93,14 +93,14 @@ module.exports = class DBService {
         }
     }
 
-    // async readByKey(table, keysValue) {
-    //     try {
-    //         const result = await this.#atlas.table(table).on('keys').where(keysValue).get();
-    //         return this.#successMessage(result);
-    //     } catch (error) {
-    //         return this.#serverError(error.message);
-    //     }
-    // }
+    async readByKey(table, keysValue) {
+        try {
+            const result = await this.#atlas.table(table).on('keys').where(keysValue).get();
+            return this.#successMessage(result);
+        } catch (error) {
+            return this.#serverError(error.message);
+        }
+    }
 
     async delete(table, id) {
         try {

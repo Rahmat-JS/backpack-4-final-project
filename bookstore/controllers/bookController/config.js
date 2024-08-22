@@ -11,9 +11,7 @@ module.exports = {
     },
     readAll: {
       needProtocolRef: false,
-      params: [
-        '_inputData.queryString'
-      ],
+      params: [],
     },
     readById: {
       needProtocolRef: false,
@@ -32,6 +30,19 @@ module.exports = {
       needProtocolRef: false,
       params: [
         '_inputData.params'
+      ],
+    },
+    getComments: {
+      needProtocolRef: false,
+      params: [
+        '_inputData.params'
+      ],
+    },
+    search: {
+      needProtocolRef: false,
+      params: [
+        '_protocolRef.request.data'
+        // '_inputData.queryString'
       ],
     },
   }
