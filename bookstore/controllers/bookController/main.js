@@ -108,14 +108,16 @@ exports.controller = class BookController extends BaseController {
     }
 
     async getComments(params) {
-        const result = await this.#bookService.readById(params.id);
+        const bookResponse = await this.#bookService.readById(params.id);
         
-        if(result.statusCode == 404) return result; // book does not exist before
+        if(bookResponse.statusCode == 404) return bookResponse; // book does not exist before
         
         const comments = [];
-        const commentsIds = result['data']['body']['comments'];
+        const commentsIds = bookResponse['data']['body']['comments'];
+
         for(const commentId of commentsIds) {
-            const {id, keys, body} = await this.#commentService.readById(commentId);
+            const commentResponse = await this.#commentService.readById(commentId);
+            const {id, keys, body} = commentResponse['data'];
             comments.push({
                 'id': id,
                 'details': body

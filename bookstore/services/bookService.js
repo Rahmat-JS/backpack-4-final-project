@@ -17,27 +17,26 @@ module.exports = class BookService {
         const tagsForKeys = this.#getTagsForKeys(tags);
         const keysValueForDB = ['*', `name_${data.name}`, `author_${data.author}`, ...tagsForKeys];
 		const bodyValueForDB = data;
-        return this.#dbService.create('book', keysValueForDB, bodyValueForDB);
+        return await this.#dbService.create('book', keysValueForDB, bodyValueForDB);
     }
 
     async readAll() {
-        return this.#dbService.readAll('book');
+        return await this.#dbService.readAll('book');
     }
 
     async readById(id) {
-        return this.#dbService.readById('book', id);
+        return await this.#dbService.readById('book', id);
     }
 
     async update(id, data, tags) {
-
         const tagsForKeys = this.#getTagsForKeys(tags);
         const keysValueForDB = ['*', `name_${data.name}`, `author_${data.author}`, ...tagsForKeys];
         const bodyValueForDB = data;
-        return this.#dbService.update('book', id, keysValueForDB, bodyValueForDB); 
+        return await this.#dbService.update('book', id, keysValueForDB, bodyValueForDB); 
     }
 
     async delete(id) {
-        return this.#dbService.delete('book', id);
+        return await this.#dbService.delete('book', id);
     }
 
     async search(searchItems) {
@@ -49,6 +48,13 @@ module.exports = class BookService {
                 keys.push(`tag_${tag}`);
             });
         }
-        return this.#dbService.readByKey('book', keys);
+        return await this.#dbService.readByKey('book', keys);
+    }
+
+    async addComment(bookId, commentId) {
+        const bookResponse = await this.readById(bookId);
+        const book = bookResponse['data']['body'];
+        book.comments.push(commentId);
+        return await this.#dbService.update('book', bookId, bookResponse['data']['keys'], book);
     }
 };

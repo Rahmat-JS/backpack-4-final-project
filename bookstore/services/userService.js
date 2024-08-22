@@ -62,7 +62,7 @@ module.exports = class UserService {
 
         const keysValueForDB = ['*', `username_${user.username}`, `email_${user.email}`];
 		const bodyValueForDB = user;
-        return this.#dbService.update('user', userId, keysValueForDB, bodyValueForDB)
+        return await this.#dbService.update('user', userId, keysValueForDB, bodyValueForDB)
     }
 
 };
