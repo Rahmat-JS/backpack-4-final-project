@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.0.0-alpha.21
+### Added
+* connector of order system to database (CRUD for `order`) (#25)
+### Fixing
+* name of service and model file names
+
+## 1.0.0-alpha.20
+### Added
+* connector of comment system to database (CRUD for `comment`) (#24)
+
+## 1.0.0-alpha.19
+### Added
+* admin controller for get all tables and drop all tables from database (#23)
+
+## 1.0.0-alpha.18
+### Added
+* connector of tag service to database (#21)
+
 ## 1.0.0-alpha.17
 ### Added
 * middlewares structure (#18)
