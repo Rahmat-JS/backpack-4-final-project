@@ -1,25 +1,31 @@
 module.exports = class OrderService {
-    #serverError = {
-        data: null,
-        message: `There is a problem on the server side, please contact support.`,
-        statusCode: 500
-    }
 
-    #userNotFoundMessage = {
-        data: null,
-        message: `Item not found`,
-        statusCode: 404
+    #dbService;
+    constructor(dbService) {
+        this.#dbService = dbService;
     }
-
-    constructor() {}
 
     async create(data) {
-
+        const keysValueForDB = ['*'];
+		const bodyValueForDB = data;
+        return this.#dbService.create('order', keysValueForDB, bodyValueForDB);
     }
 
-    async readAll(type) {
-
+    async readAll() {
+        return this.#dbService.readAll('order');
     }
 
+    async readById(id) {
+        return this.#dbService.readById('order', id);
+    }
 
+    async update(id, data) {
+        const keysValueForDB = ['*'];
+		const bodyValueForDB = data;
+        return this.#dbService.update('order', id, keysValueForDB, bodyValueForDB);
+    }
+
+    async delete(id) {
+        return this.#dbService.delete('order', id);
+    }
 };

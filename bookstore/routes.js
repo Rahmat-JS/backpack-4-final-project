@@ -35,10 +35,10 @@ module.exports = (router) => {
         });
 
         router.prefix('api/orders').setGroup(function () {
-            router.setRoute('/:id', 'order-controller.readByUser').method('GET').middleware('iDvalidation');
-            router.setRoute('', 'order-controller.readAll').method('GET');
-            router.setRoute('', 'order-controller.create').method('POST').middleware('validationOrderCreate');
-            router.setRoute('', 'order-controller.approval').method('PUT').middleware('validationOrderApproval');
+            router.setRoute('/:id', 'order-controller.readById').method('GET').middleware('iDvalidation');
+            router.setRoute('/', 'order-controller.readAll').method('GET');
+            router.setRoute('/', 'order-controller.create').method('POST').middleware('validationOrderCreate');
+            router.setRoute('/', 'order-controller.approval').method('PUT').middleware('validationOrderApproval');
             router.setRoute('/:id', 'order-controller.delete').method('DELETE').middleware('iDvalidation');
         });
 
