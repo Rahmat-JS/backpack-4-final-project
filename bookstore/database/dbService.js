@@ -89,7 +89,7 @@ module.exports = class DBService {
         try {
             const result = await this.#atlas.table(table).select('id', 'keys', 'body').where('*').get();
             const {list, count} = this.#customizeListOfOutput(result);
-            return this.#successMessage(list, `${count} item founded`);
+            return this.#successMessage(list, `${count} item found`);
         } catch (error) {
             return this.#serverError(error.message);
         }
@@ -102,7 +102,7 @@ module.exports = class DBService {
             if(!status) {
                 return this.#itemNotFoundMessage(table);
             }
-            return this.#successMessage(item, `${table} founded successfully`);
+            return this.#successMessage(item, `${table} found successfully`);
         } catch (error) {
             return this.#serverError(error.message);
         }
@@ -113,7 +113,7 @@ module.exports = class DBService {
             const result = await this.#atlas.table(table).on('keys').where(keysValue).get();
             const {list, count} = this.#customizeListOfOutput(result);
             
-            return this.#successMessage(list, `${count} item founded`);
+            return this.#successMessage(list, `${count} item found`);
         } catch (error) {
             return this.#serverError(error.message);
         }

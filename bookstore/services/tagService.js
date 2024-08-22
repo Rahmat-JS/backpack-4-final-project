@@ -12,10 +12,10 @@ module.exports = class TagService {
         const oldTags = await this.#dbService.readByKey('tag', keysValueForDB);
         const isExist = oldTags['data'].length == 0 ? false : true;
         if(isExist) return {
-                data: null,
-                message: `<${data.name}> was already exist!`,
-                statusCode: 409 // status code of duplicate
-            }
+            data: null,
+            message: `<${data.name}> was already exist!`,
+            statusCode: 409 // status code of duplicate
+        }
 
         return await this.#dbService.create('tag', keysValueForDB, bodyValueForDB);
     }
