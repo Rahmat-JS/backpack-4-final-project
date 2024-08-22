@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0-alpha.22
+### Added
+* connector of user system to database (CRUD for `user`) (#26)
+* function of add order to user in order creation function
+
 ## 1.0.0-alpha.21
 ### Added
 * connector of order system to database (CRUD for `order`) (#25)
