@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0-alpha.25
+### Adding
+* Update functions (#29)
+* Communication between entities (#29)
+### Fixing
+* Fix the errors created during the above steps
+
 ## 1.0.0-alpha.24
 ### Fixing
 * Customizing output in database service functions (#28)
