@@ -7,12 +7,12 @@ class BookWhenToBuy {
 }
 
 class Order {
-  constructor(userId, booksInformations) {
+  constructor(userId, booksInformations, totoalPrice, date, confirmed) {
     this.userId = userId;
     this.booksInformations = booksInformations;
-    this.totoalPrice;
-    this.date;
-    this.confirmed;
+    this.totoalPrice = totoalPrice;
+    this.date = date;
+    this.confirmed = confirmed;
   }
 };
 

@@ -21,21 +21,18 @@ exports.controller = class OrderController extends BaseController {
         const totalPrice = 0;
         const bookArray = [];
 
-        // body['booksInformations'].forEach(async (element) => { // for each book in order
-        //     const book = await this.#getBookWhenToBuyInstance(
-        //         element.id,
-        //         element.count
-        //     );
-        //     bookArray.push(book);
-        //     totalPrice += (book.price * book.count);
-        // });
+        body['booksInformations'].forEach(async (element) => { // for each book in order
+            const book = await this.#getBookWhenToBuyInstance(
+                element.id,
+                element.count
+            );
+            bookArray.push(book);
+            totalPrice += (book.price * book.count);
+        });
         
         const newOrder = new Order(
             body.userId,
-            
-            // bookArray,
-            body.booksInformations,
-
+            bookArray,
             totalPrice,
             dateTimeNow,
             false // not confirmed in default
@@ -52,8 +49,10 @@ exports.controller = class OrderController extends BaseController {
     }
 
     async approval(body) {
+        console.log(body);
+        
         const orderToApproval = this.readById(body.id).data.body; // get order to approval
-        orderToApproval.confirmed = body.confirmed;
+        orderToApproval.confirmed = body.confirmed == 'true' ? true : false;
         return await this.#orderService.update(body.id, orderToApproval);
     }
 
