@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-alpha.24
+### Fixing
+* Customizing output in database service functions (#28)
+
 ## 1.0.0-alpha.23
 ### Added
 * connector of book system to database (CRUD for `book`) (#27)
