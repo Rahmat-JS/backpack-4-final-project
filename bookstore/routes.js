@@ -30,6 +30,7 @@ module.exports = (router) => {
             router.setRoute('/', 'create').method('POST').middleware('validationUserCreate');
             router.setRoute('/', 'update').method('PUT').middleware('validationUserUpdate');
             router.setRoute('/:id', 'delete').method('DELETE').middleware('iDvalidation');
+            router.setRoute('/orders/:id', 'ordersByUserId').method('GET');
         }).controller('user-controller');
 
         router.prefix('api/orders').setGroup(function () {

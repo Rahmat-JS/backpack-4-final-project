@@ -5,10 +5,12 @@ exports.controller = class OrderController extends BaseController {
 
     #orderService;
     #bookService;
-    constructor(core, schema, config, orderService, bookService) {
+    #userService;
+    constructor(core, schema, config, orderService, bookService, userService) {
         super(core, schema, config);
         this.#orderService = orderService;
         this.#bookService = bookService;
+        this.#userService = userService;
     }
 
     async #getBookWhenToBuyInstance(bookId, count) {
@@ -37,7 +39,10 @@ exports.controller = class OrderController extends BaseController {
             dateTimeNow,
             false // not confirmed in default
         );
-        return await this.#orderService.create(newOrder);
+
+        const result = await this.#orderService.create(newOrder);
+        this.#userService.addOrder(body.userId, result.data.id);
+        return result;
     }
 
     async readAll() {

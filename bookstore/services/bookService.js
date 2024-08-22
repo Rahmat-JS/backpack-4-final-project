@@ -33,4 +33,8 @@ module.exports = class BookService {
 
     }
 
+    async addComment(bookId, commentId) {
+        
+    }
+
 };
