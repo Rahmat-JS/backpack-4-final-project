@@ -54,12 +54,15 @@ module.exports = class UserService {
     }
 
     async addOrder(userId, orderId) {
-        const user = this.#dbService.readById('user', userId);
+        const userData = await this.#dbService.readById('user', userId);
 
-        // TODO: if user not found return 404
 
+        const user = userData['data']['body'];
         user.orders.push(orderId);
-        return this.#dbService.update('user', user)
+
+        const keysValueForDB = ['*', `username_${user.username}`, `email_${user.email}`];
+		const bodyValueForDB = user;
+        return this.#dbService.update('user', userId, keysValueForDB, bodyValueForDB)
     }
 
 };

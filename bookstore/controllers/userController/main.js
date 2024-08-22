@@ -61,15 +61,24 @@ exports.controller = class UserController extends BaseController {
         if(userData.statusCode != 200) {
             return userData;
         }
-        // return 'hey...'        
+             
         const orders = [];
         const orderIds = userData['data']['body']['orders'];
         for(const orderId of orderIds) {
-            const {id, keys, body} = await this.#orderService.readById(orderId);
-            orders.push({
-                'id': id,
-                'details': body
-            });
+            const orderResponse = await this.#orderService.readById(orderId);
+            if(orderResponse.statusCode != 200) {
+                orders.push({
+                    'id': orderId,
+                    'details': 'not found'
+                });
+            }
+            else {
+                const {id, keys, body} = orderResponse['data'];
+                orders.push({
+                    'id': id,
+                    'details': body
+                });
+            }
         }
         return {
             "data": orders,
