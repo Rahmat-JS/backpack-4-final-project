@@ -1,23 +1,47 @@
 module.exports = class DBService {
+
+    #customizeListOfOutput(result) {
+        return {
+            'list': result['body']['data']['result'],
+            'count': result['body']['data']['count']
+        }
+    }
+
+    #customizeOneOutput(result) {
+        if(result['body']['data']['result'].length)
+            return {
+                'item': result['body']['data']['result'][0],
+                'status': true
+            };
+        return {'item': null, 'status': false};
+    }
+
+    #customizeOneMessageOutput(result) {
+        return result['body']['data']['result']['success'][0];
+    }
+
     #serverError(error = '') {
         return {
             data: null,
-            message: `There is a problem on the server side, please contact support.\n"${error}"`,
+            message: `There is a problem on the server side, please contact support.`,
+            serverMessage: error, // you should remove it before launching
             statusCode: 500
         }
     }
 
-    #ItemNotFoundMessage = {
-        data: null,
-        message: `Item not found`,
-        statusCode: 404
+    #itemNotFoundMessage(item) {
+        return {
+            data: null,
+            message: `${item} not found`,
+            statusCode: 404
+        }
     }
 
-    #successMessage(dataValue, messageValue = null) {
+    #successMessage(dataValue, messageValue = null, statusCodeValue = 200) {
         return {
             data: dataValue,
             message: messageValue,
-            statusCode: 200
+            statusCode: statusCodeValue
         }
     };
     
@@ -36,7 +60,6 @@ module.exports = class DBService {
     }
 
     async #initial() {        
-
         try {
             const currentTables = await this.#getTablesNames();
             const usageTables = ['tag', 'comment', 'user', 'book', 'order'];
@@ -68,8 +91,11 @@ module.exports = class DBService {
                 keys: keysValue,
                 body: bodyValue
             });
-            // TODO
-            return this.#successMessage(result);
+            return this.#successMessage(
+                this.#customizeOneMessageOutput(result),
+                `${table} created Successfully`,
+                201 // status code of create
+            );
         } catch (error) {
             return this.#serverError(error.message);
         }
@@ -78,7 +104,8 @@ module.exports = class DBService {
     async readAll(table) {
         try {
             const result = await this.#atlas.table(table).select('id', 'keys', 'body').where('*').get();
-            return this.#successMessage(result);
+            const {list, count} = this.#customizeListOfOutput(result);
+            return this.#successMessage(list, `${count} item founded`);
         } catch (error) {
             return this.#serverError(error.message);
         }
@@ -87,7 +114,11 @@ module.exports = class DBService {
     async readById(table, id) {
         try {
             const result = await this.#atlas.table(table).on('id').where(id).get();
-            return this.#successMessage(result);
+            const {item, status} = this.#customizeOneOutput(result);
+            if(!status) {
+                return this.#itemNotFoundMessage(table);
+            }
+            return this.#successMessage(item, `${table} founded successfully`);
         } catch (error) {
             return this.#serverError(error.message);
         }
@@ -96,7 +127,8 @@ module.exports = class DBService {
     async readByKey(table, keysValue) {
         try {
             const result = await this.#atlas.table(table).on('keys').where(keysValue).get();
-            return this.#successMessage(result);
+            const {list, count} = this.#customizeListOfOutput(result);
+            return this.#successMessage(list, `${count} item founded`);
         } catch (error) {
             return this.#serverError(error.message);
         }
@@ -105,13 +137,13 @@ module.exports = class DBService {
     async delete(table, id) {
         try {
             const result = await this.#atlas.table(table).on('id').where(id).delete();
-            return this.#successMessage(result);
+            return this.#successMessage(null, `${table} deleted successfully`);
         } catch (error) {
             return this.#serverError(error.message);
         }
     }
 
-    async update(table, id, keysValue, bodyValue) {
+    async update(table, id, keysValue, bodyValue) { // TODO: you should customize output
         try {
             const result = await this.#atlas.table(table).on('id').where(id).update({
                 keys: keysValue,

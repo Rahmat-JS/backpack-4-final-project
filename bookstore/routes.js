@@ -1,6 +1,5 @@
 module.exports = (router) => {
-    
-    
+
         router.prefix('api/books').setGroup(() => {
             router.setRoute('/:id', 'readById').method('GET').middleware('iDvalidation');
             router.setRoute('/', 'readAll').method('GET');
@@ -20,7 +19,8 @@ module.exports = (router) => {
         }).controller('tag-controller');
 
         router.prefix('api/comments').setGroup(function () {
-            router.setRoute('/:id', 'getComments').method('GET').middleware('iDvalidation');
+            router.setRoute('/', 'getComments').method('GET');
+            router.setRoute('/:id', 'getCommentById').method('GET');
             router.setRoute('/', 'leaveComment').method('POST').middleware('validationCommentCreate');
             router.setRoute('/', 'publishedComment').method('PUT');
             router.setRoute('/:id', 'delete').method('DELETE').middleware('iDvalidation');
