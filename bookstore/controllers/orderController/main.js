@@ -53,9 +53,7 @@ exports.controller = class OrderController extends BaseController {
         return await this.#orderService.readById(params.id);
     }
 
-    async approval(body) {
-        console.log(body);
-        
+    async approval(body) {        
         const orderToApproval = this.readById(body.id).data.body; // get order to approval
         orderToApproval.confirmed = body.confirmed == 'true' ? true : false;
         return await this.#orderService.update(body.id, orderToApproval);

@@ -7,6 +7,8 @@ module.exports = (router) => {
             router.setRoute('/', 'create').method('POST').middleware('validationBookCreate');
             router.setRoute('/', 'update').method('PUT').middleware('validationBookUpdate');
             router.setRoute('/:id', 'delete').method('DELETE').middleware('iDvalidation');
+            router.setRoute('comments/:id', 'getComments').method('GET');
+            router.setRoute('/search', 'search').method('GET');
         }).controller('book-controller');
         
         router.prefix('api/tags').setGroup(function () {
