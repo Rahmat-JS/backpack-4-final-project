@@ -13,8 +13,8 @@ module.exports = class BookService {
         return tagsForKeys;
     }
 
-    async create(data) {
-        const tagsForKeys = this.#getTagsForKeys(data.tags);
+    async create(data, tags) {
+        const tagsForKeys = this.#getTagsForKeys(tags);
         const keysValueForDB = ['*', `name_${data.name}`, `author_${data.author}`, ...tagsForKeys];
 		const bodyValueForDB = data;
         return this.#dbService.create('book', keysValueForDB, bodyValueForDB);
@@ -29,6 +29,7 @@ module.exports = class BookService {
     }
 
     async update(id, data, tags) {
+
         const tagsForKeys = this.#getTagsForKeys(tags);
         const keysValueForDB = ['*', `name_${data.name}`, `author_${data.author}`, ...tagsForKeys];
         const bodyValueForDB = data;

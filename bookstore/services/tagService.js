@@ -35,14 +35,16 @@ module.exports = class TagService {
     }
 
     async delete(id) {
-        return this.#dbService.delete('tag', id);
+        return await this.#dbService.delete('tag', id);
     }
 
-    async getId(tagName) { // return id by tag name
-        const receivedData = await this.#dbService.readAll('tag', [tagName]);
-        // TODO
-        const id = receivedData;
-        return id;
+    async getId(tagName) {
+        const receivedData = await this.#dbService.readByKey('tag', [`name_${tagName}`]);
+        if(receivedData['data'].length == 0) {
+            const createdDetail =  await this.create({'name': tagName});
+            return createdDetail['data']; // return ID of new tag
+        }
+        return receivedData['data'][0]['id'];
     }
 
 };

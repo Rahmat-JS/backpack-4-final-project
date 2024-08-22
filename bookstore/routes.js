@@ -45,6 +45,7 @@ module.exports = (router) => {
 
         router.prefix('api/admin').setGroup(function () {
             router.setRoute('tables', 'getAllTables').method('GET');
+            router.setRoute('tables', 'createAllTables').method('POST');
             router.setRoute('tables', 'dropAllTables').method('DELETE');
         }).controller('admin-controller');
 };

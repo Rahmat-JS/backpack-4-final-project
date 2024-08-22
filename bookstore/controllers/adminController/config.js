@@ -10,5 +10,9 @@ module.exports = {
       needProtocolRef: true,
       params: []
     },
+    createAllTables: {
+      needProtocolRef: true,
+      params: []
+    },
   }
 };   

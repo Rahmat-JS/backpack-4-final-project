@@ -23,10 +23,7 @@ exports.controller = class BookController extends BaseController {
             body.publishYear,
             body.price,
             body.abstract,
-
-            // tags, // ids of tags
-            body.tags, // TODO: update tags to ids of tags
-            
+            tags, // ids of tags
             body.count,
             [], // on creation, book has no comments
             imagePath,
@@ -34,12 +31,13 @@ exports.controller = class BookController extends BaseController {
         );
     }
 
-    #getTagIds(tags) {
+    async #getTagIds(tags) {
         const tagIds = [];
-        tags.forEach(async (tag) => {
-            const tagId = await this.#tagService.getId(tag);
-            tagIds.push(tagId);
-        });
+        // IMPORTANT NOTE: don't use forEach function for it
+        for(const tag of tags) {
+            const id = await this.#tagService.getId(tag);
+            tagIds.push(id);
+        }
         return tagIds;
     }
 
@@ -53,10 +51,8 @@ exports.controller = class BookController extends BaseController {
         const imagePath = 'should be updated';
         const imageName = 'should be updated';
 
-        // const tagIds = this.#getTagIds(body.tags);
-        // const newBook = this.#getBookInstance(body, tagIds, imagePath, imageName);
-        const newBook = this.#getBookInstance(body, null, imagePath, imageName); // TODO: update tags to ids of tags
-
+        const tagIds = await this.#getTagIds(body.tags);
+        const newBook = this.#getBookInstance(body, tagIds, imagePath, imageName);
         const result = await this.#bookService.create(newBook, body.tags);
         // fs.unlinkSync(frameworkFilePath);
         return result;
@@ -71,62 +67,73 @@ exports.controller = class BookController extends BaseController {
     }
 
     async update(body, files) {
-        const oldBook = await this.#bookService.readById(body.id);
+        const result = await this.#bookService.readById(body.id);
+        if(result.statusCode != 200)
+            return result;
 
-        // TODO: if book not found return 404
-
-        const updatedBook = this.#getBookInstance(
+        const oldBook = result['data']['body'];
+        const tags = body.tags ? await this.#getTagIds(body.tags) : oldBook.tags;
+        const updatedBook = new Book(
             body.name || oldBook.name,
             body.author || oldBook.author,
             body.publishYear || oldBook.publishYear,
             body.price || oldBook.price,
             body.abstract || oldBook.abstract,
-            body.tags || oldBook.tags, // TODO: update tags
+            tags,
             body.count || oldBook.count,
-            body.comments || oldBook.comments,
+            oldBook.comments, // comments not change by update method
             oldBook.imagePath, // image path should not be changed
             oldBook.imageName // image name should not be changed
         );
         // TODO : update image if new image is uploaded
 
-        return await this.#bookService.update(body.id, updatedBook, body.tags);
+        const tagNames = [];
+        for(const tagID of updatedBook.tags) {
+            const result = await this.#tagService.readById(tagID);
+            tagNames.push(result['data']['body']['name']);
+        }
+        return await this.#bookService.update(body.id, updatedBook, tagNames);
     }
 
     async delete(params) {
         // TODO: delete image from file system
-        // TODO: delete comments of this book
+
+        const result = await this.#bookService.readById(params.id);
+        if(result.statusCode == 200) { // deleting comments of book
+            result.data.body.comments.forEach(async (commentId) => { // for each comment
+                await this.#commentService.delete(commentId);
+            });
+        }
         return await this.#bookService.delete(params.id);
     }
 
     async getComments(params) {
+        const result = await this.#bookService.readById(params.id);
+        
+        if(result.statusCode == 404) return result; // book does not exist before
+        
         const comments = [];
-
-        // return {"message": "Not implemented yet!"};
-
-        const book = await this.#bookService.readById(params.id);
-
-        // TODO: if book not found return 404
-
-        book.comments.forEach(async (commentId) => {
+        const commentsIds = result['data']['body']['comments'];
+        for(const commentId of commentsIds) {
             const {id, keys, body} = await this.#commentService.readById(commentId);
             comments.push({
                 'id': id,
                 'details': body
             });
-        })
-        return comments;
+        }
+        return {
+            "data": comments,
+            "message": `${comments.length} comment found successfully`,
+            'statusCode': 200
+        };
     }
 
     async search(data) {
-        // TODO: implement search in bookService
-        // return {"message": "Not implemented yet!"};
-
         const searchItems = {
             'name': data.name,
             'author': data.author,
             'tags': data.tags
         };
-
         return await this.#bookService.search(searchItems);
     }
 
