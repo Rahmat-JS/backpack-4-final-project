@@ -143,13 +143,16 @@ module.exports = class DBService {
         }
     }
 
-    async update(table, id, keysValue, bodyValue) { // TODO: you should customize output
+    async update(table, id, keysValue, bodyValue) {
         try {
             const result = await this.#atlas.table(table).on('id').where(id).update({
                 keys: keysValue,
                 body: bodyValue
             });
-            return this.#successMessage(result);
+            if(result['body']['data']['result']['success'].length == 0) {
+                return this.#itemNotFoundMessage(table);
+            }
+            return this.#successMessage(null, `${table} updated successfully`);
         } catch (error) {
             return this.#serverError(error.message);
         }

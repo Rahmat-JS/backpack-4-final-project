@@ -8,21 +8,30 @@ module.exports = class TagService {
     async create(data) {
         const keysValueForDB = ['*', `name_${data.name}`];
 		const bodyValueForDB = data;
-        return this.#dbService.create('tag', keysValueForDB, bodyValueForDB);
+
+        const oldTags = await this.#dbService.readByKey('tag', keysValueForDB);
+        const isExist = oldTags['data'].length == 0 ? false : true;
+        if(isExist) return {
+                data: null,
+                message: `<${data.name}> was already exist!`,
+                statusCode: 409 // status code of duplicate
+            }
+
+        return await this.#dbService.create('tag', keysValueForDB, bodyValueForDB);
     }
 
     async readAll() {
-        return this.#dbService.readAll('tag');
+        return await this.#dbService.readAll('tag');
     }
 
     async readById(id) {
-        return this.#dbService.readById('tag', id);
+        return await this.#dbService.readById('tag', id);
     }
 
     async update(id, data) {
         const keysValueForDB = ['*', `name_${data.name}`];
 		const bodyValueForDB = data;
-        return this.#dbService.update('tag', id, keysValueForDB, bodyValueForDB);
+        return await this.#dbService.update('tag', id, keysValueForDB, bodyValueForDB);
     }
 
     async delete(id) {
@@ -30,7 +39,7 @@ module.exports = class TagService {
     }
 
     async getId(tagName) { // return id by tag name
-        const receivedData = this.#dbService.readAll('tag', [tagName]);
+        const receivedData = await this.#dbService.readAll('tag', [tagName]);
         // TODO
         const id = receivedData;
         return id;
