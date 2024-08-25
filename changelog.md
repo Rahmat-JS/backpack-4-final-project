@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-alpha.26
+### Adding
+* adding decorator structures (#30)
+
 ## 1.0.0-alpha.25
 ### Adding
 * Update functions (#29)
