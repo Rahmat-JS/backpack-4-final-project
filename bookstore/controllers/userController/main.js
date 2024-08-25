@@ -1,7 +1,7 @@
 const BaseController = require('@partFramework/baseController');
 const User = require('../../models/userModel');
-// const {after} = require('@partFramework/decorators');
-// const AfterDecorators = require('../../decorators/after')
+const {after} = require('@partFramework/decorators');
+const AfterDecorators = require('../../decorators/after')
 
 exports.controller = class UserController extends BaseController {
 
@@ -27,10 +27,11 @@ exports.controller = class UserController extends BaseController {
         return await this.#userService.create(newUser);
     }
 
+    @after(AfterDecorators.passwordDeleterForOne)
     async readById(params) {
         return await this.#userService.readById(params.id);
     }
-
+    
     async update(body) {
         const result = await this.#userService.readById(body.id);
         if(result.statusCode != 200)
@@ -47,6 +48,7 @@ exports.controller = class UserController extends BaseController {
         return await this.#userService.update(body.id, updatedUser);
     }
 
+    @after(AfterDecorators.passwordDeleterForList)
     async readAll() {
         return await this.#userService.readAll();
     }
@@ -55,6 +57,7 @@ exports.controller = class UserController extends BaseController {
         return await this.#userService.delete(params.id);
     }
 
+    @after(AfterDecorators.getConfirmedOrders)
     async ordersByUserId(params) {
         const userData = await this.#userService.readById(params.id);
         
