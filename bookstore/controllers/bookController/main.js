@@ -4,7 +4,7 @@ const Book = require('../../models/book');
 const BookService = require('../../services/book')
 const FileService = require("../../services/file");
 const { log } = require('util');
-
+const path  = require('path');
 exports.controller = class BookController extends BaseController {
   
   constructor(core, schema, config) {
@@ -19,7 +19,7 @@ exports.controller = class BookController extends BaseController {
     const upload_response =  await this.FIleservice.uploadFile(FrameworkFilePath)
     const ImagePath = upload_response['filePath'];
     const ImageName = upload_response['fileName'];
-
+    
     const newbook = new Book(
       body.id,
       body.name,
@@ -29,7 +29,7 @@ exports.controller = class BookController extends BaseController {
       body.abstract,
       body.tags,
       body.count,
-      ImagePath,
+      `http://127.0.0.1:3000/uploads/${ImageName}`,
       ImageName
     );
 
@@ -46,8 +46,6 @@ exports.controller = class BookController extends BaseController {
 
       }
     })
-
-
   
   }
 

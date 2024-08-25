@@ -1,17 +1,43 @@
-const { saveFile, getFile, deleteFile } = require('../controllers/fileController');
+const { saveFile, deleteFile } = require('../controllers/fileController');
+const EventEmitter = require('events');
 
-const router = (req, res) => {
-    if (req.method === 'POST' && req.url === '/upload') {
+class Router extends EventEmitter {
+    router(req, res) {
+        const method = req.method.toLowerCase();
+        const path = req.url.split('?')[0];
+        this.emit(`${method} ${path}`, req, res);
+    }
+}
+
+const router = new Router();
+try{
+
+    router.on('post /upload', (req, res) => {
         saveFile(req, res);
-    } else if (req.method === 'GET' && req.url.startsWith('/getFile')) {
-        getFile(req, res);
-    } else if (req.method === 'DELETE' && req.url.startsWith('/delete/')) {
-        const fileName = req.url.split('/').pop();
-        deleteFile(fileName, res);
-    } else {
+    });
+    
+    router.on('delete /delete/:fileName', (req, res) => {
+        const filename = req.url.split('/').pop();
+        deleteFile(filename, res);
+    });
+}
+catch(err){
+    router.on('default', (req, res) => {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Not Found');
+    });
+
+}
+
+
+module.exports = (req, res) => {
+    const path = req.url.split('?')[0];
+    const eventKey = `${req.method.toLowerCase()} ${path.startsWith('/delete/') ? '/delete/:fileName' : path}`;
+
+    if (router.listenerCount(eventKey) > 0) {
+        router.router(req, res);
+    } else {
+        router.emit('default', req, res);
     }
 };
 
-module.exports = router;

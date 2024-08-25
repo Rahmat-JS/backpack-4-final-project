@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-alpha.18
+### Added
+* File server refactor and use of listeners (#22)
+* image display using get method (#22)
+
+
 ## 1.0.0-alpha.17
 ### Added
 * middlewares structure (#18)
