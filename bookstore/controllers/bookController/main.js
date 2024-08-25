@@ -1,6 +1,9 @@
 const BaseController = require('@partFramework/baseController');
 const Book = require('../../models/bookModel');
 const fs = require("fs")
+const {after} = require('@partFramework/decorators');
+const AfterDecorators = require('../../decorators/after');
+// const { Agent } = require('http');
 
 exports.controller = class BookController extends BaseController {
 
@@ -107,6 +110,7 @@ exports.controller = class BookController extends BaseController {
         return await this.#bookService.delete(params.id);
     }
 
+    @after(AfterDecorators.getPublishedComments)
     async getComments(params) {
         const bookResponse = await this.#bookService.readById(params.id);
         
