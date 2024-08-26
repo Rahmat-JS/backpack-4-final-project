@@ -1,3 +1,5 @@
+const ManualException = require('../utils/error/Exception');
+
 module.exports = class DBService {
 
     #customizeListOfOutput(result) {
@@ -18,23 +20,6 @@ module.exports = class DBService {
 
     #customizeOneMessageOutput(result) {
         return result['body']['data']['result']['success'][0];
-    }
-
-    #serverError(error = '') {
-        return {
-            data: null,
-            message: `There is a problem on the server side, please contact support.`,
-            serverMessage: error, // you should remove it before launching
-            statusCode: 500
-        }
-    }
-
-    #itemNotFoundMessage(item) {
-        return {
-            data: null,
-            message: `${item} not found`,
-            statusCode: 404
-        }
     }
 
     #successMessage(dataValue, messageValue = null, statusCodeValue = 200) {
@@ -81,7 +66,7 @@ module.exports = class DBService {
                 201 // status code of create
             );
         } catch (error) {
-            return this.#serverError(error.message);
+            throw new ManualException(500, `There is a problem on the server side, please contact support.`, error.message);
         }
     }
     
@@ -91,7 +76,7 @@ module.exports = class DBService {
             const {list, count} = this.#customizeListOfOutput(result);
             return this.#successMessage(list, `${count} item found`);
         } catch (error) {
-            return this.#serverError(error.message);
+            throw new ManualException(500, `There is a problem on the server side, please contact support.`, error.message);
         }
     }
     
@@ -100,11 +85,12 @@ module.exports = class DBService {
             const result = await this.#atlas.table(table).on('id').where(id).get();
             const {item, status} = this.#customizeOneOutput(result);
             if(!status) {
-                return this.#itemNotFoundMessage(table);
+                throw new ManualException(404, `${table} not found!`);
             }
             return this.#successMessage(item, `${table} found successfully`);
         } catch (error) {
-            return this.#serverError(error.message);
+            if(error.isOperational) throw error;
+            throw new ManualException(500, `There is a problem on the server side, please contact support.`, error.message);
         }
     }
     
@@ -115,7 +101,7 @@ module.exports = class DBService {
             
             return this.#successMessage(list, `${count} item found`);
         } catch (error) {
-            return this.#serverError(error.message);
+            throw new ManualException(500, `There is a problem on the server side, please contact support.`, error.message);
         }
     }
     
@@ -124,7 +110,7 @@ module.exports = class DBService {
             const result = await this.#atlas.table(table).on('id').where(id).delete();
             return this.#successMessage(null, `${table} deleted successfully`);
         } catch (error) {
-            return this.#serverError(error.message);
+            throw new ManualException(500, `There is a problem on the server side, please contact support.`, error.message);
         }
     }
     
@@ -135,11 +121,12 @@ module.exports = class DBService {
                 body: bodyValue
             });
             if(result['body']['data']['result']['success'].length == 0) {
-                return this.#itemNotFoundMessage(table);
+                throw new ManualException(404, `${table} not found!`);
             }
             return this.#successMessage(null, `${table} updated successfully`);
         } catch (error) {
-            return this.#serverError(error.message);
+            if(error.isOperational) throw error;
+            throw new ManualException(500, `There is a problem on the server side, please contact support.`, error.message);
         }
     }
     
@@ -160,7 +147,7 @@ module.exports = class DBService {
             });
             return this.#successMessage(null, 'all tables created successfully');
         } catch (error) {
-            return this.#serverError(error.message);
+            throw new ManualException(500, `There is a problem on the server side, please contact support.`, error.message);
         }
     }
 
@@ -169,7 +156,7 @@ module.exports = class DBService {
             const result = await this.#getTablesNames();
             return this.#successMessage(result);
         } catch(error) {
-            return this.#serverError(error.message);
+            throw new ManualException(500, `There is a problem on the server side, please contact support.`, error.message);
         }
     }
     
@@ -184,7 +171,7 @@ module.exports = class DBService {
             });
             return this.#successMessage(null, 'all tables deleted successfully');
         } catch(error) {
-            return this.#serverError(error.message);
+            throw new ManualException(500, `There is a problem on the server side, please contact support.`, error.message);
         }
     }
 }

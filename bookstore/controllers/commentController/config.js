@@ -1,6 +1,9 @@
 module.exports = {
   name: 'comment-controller',
   path: './main.js',
+  exception: {
+    handler: require('../../utils/error/exceptionHandler')
+  },
   handlers: {
     leaveComment: {
       needProtocolRef: false,

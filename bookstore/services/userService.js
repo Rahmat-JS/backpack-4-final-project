@@ -1,3 +1,5 @@
+const ManualException = require("../utils/error/Exception");
+
 module.exports = class UserService {
 
     #dbService;
@@ -12,11 +14,7 @@ module.exports = class UserService {
         const duplicateUserByUsername = await this.#dbService.readByKey('user', `username_${data.username}`)
         const duplicateUserByEmail = await this.#dbService.readByKey('user', `email_${data.email}`)
         if(duplicateUserByUsername['data'].length + duplicateUserByEmail['data'].length != 0)
-            return {
-                data: null,
-                message: `username or email was already exist!`,
-                statusCode: 409 // status code of duplicate
-            }
+            throw new ManualException(409, `username or email name already exist!`);
 
         return this.#dbService.create('user', keysValueForDB, bodyValueForDB);
     }
@@ -40,11 +38,8 @@ module.exports = class UserService {
             isExist = true;
         if(duplicateUserByEmail['data'].length && duplicateUserByEmail['data'][0]['id'] != id)
             isExist = true;
-        if(isExist) return {
-            data: null,
-            message: `username or email was already exist!`,
-            statusCode: 409 // status code of duplicate
-        }
+        if(isExist)
+            throw new ManualException(409, `username or email name already exist!`);
 
         return this.#dbService.update('user', id, keysValueForDB, bodyValueForDB); 
     }

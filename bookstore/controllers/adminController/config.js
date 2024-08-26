@@ -1,6 +1,9 @@
 module.exports = {
   name: 'admin-controller',
   path: './main.js',
+  exception: {
+    handler: require('../../utils/error/exceptionHandler')
+  },
   handlers: {
     getAllTables: {
       needProtocolRef: false,
