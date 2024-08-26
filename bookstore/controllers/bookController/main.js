@@ -29,7 +29,7 @@ exports.controller = class BookController extends BaseController {
             tags, // ids of tags
             body.count,
             [], // on creation, book has no comments
-            imagePath,
+            `http://127.0.0.1:3000/uploads/${imageName}`,
             imageName
         );
     }
@@ -46,18 +46,15 @@ exports.controller = class BookController extends BaseController {
 
     async create(body, files) {
 
-        // const frameworkFilePath = files[0].path;
-        // const uploadResponse = await this.#fileService.uploadFile(frameworkFilePath)
-        // const imagePath = uploadResponse['filePath'];
-        // const imageName = uploadResponse['fileName'];
-
-        const imagePath = 'should be updated';
-        const imageName = 'should be updated';
+        const frameworkFilePath = files[0].path;
+        const uploadResponse = await this.#fileService.uploadFile(frameworkFilePath)
+        const imagePath = uploadResponse['filePath'];
+        const imageName = uploadResponse['fileName'];
 
         const tagIds = await this.#getTagIds(body.tags);
         const newBook = this.#getBookInstance(body, tagIds, imagePath, imageName);
         const result = await this.#bookService.create(newBook, body.tags);
-        // fs.unlinkSync(frameworkFilePath);
+        fs.unlinkSync(frameworkFilePath);
         return result;
     }
 
