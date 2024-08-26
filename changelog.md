@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-alpha.28
+### Added
+* adding validations of entities (#31)
+* adding a middleware for replace space and underline
 
 ## 1.0.0-alpha.27
 ### Added
