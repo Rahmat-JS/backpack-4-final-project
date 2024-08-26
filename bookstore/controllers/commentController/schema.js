@@ -1,5 +1,5 @@
 const { idSchema, paramsIdSchema } = require('../../schema/userSchema');
-const { contentSchema, publishedSchema } = require('../../schema/commentSchema');
+const { contentSchema, trueFalseSchema } = require('../../schema/commentSchema');
 
 exports.leaveComment = {
     body: {
@@ -25,7 +25,7 @@ exports.publishedComment = {
         type: 'object',
         properties: {
             id: idSchema,
-            published: publishedSchema 
+            published: trueFalseSchema 
         },
         required: ['id', 'published'],
         additionalProperties: false

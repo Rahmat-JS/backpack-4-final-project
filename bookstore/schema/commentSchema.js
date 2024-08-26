@@ -5,13 +5,13 @@ const contentSchema = {
     errorMessage: "Summary must be a string between 1 to 2000 characters."
 };
 
-const publishedSchema = {
+const trueFalseSchema = {
     type: 'string',
     enum: ['true', 'false'],
-    errorMessage: "Published must be a string either 'true' or 'false'."
+    errorMessage: "this input must be a string either 'true' or 'false'."
 };
 
 module.exports = {
     contentSchema,
-    publishedSchema
+    trueFalseSchema
 };

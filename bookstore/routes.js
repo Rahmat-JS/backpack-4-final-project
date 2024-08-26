@@ -41,7 +41,7 @@ module.exports = (router) => {
             router.setRoute('/', 'create').method('POST');
             router.setRoute('/', 'approval').method('PUT');
             router.setRoute('/:id', 'delete').method('DELETE');
-        }).controller('order-controller');
+        }).controller('order-controller').validate();
 
         router.prefix('api/admin').setGroup(function () {
             router.setRoute('tables', 'getAllTables').method('GET');
