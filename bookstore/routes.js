@@ -24,7 +24,7 @@ module.exports = (router) => {
             router.setRoute('/', 'leaveComment').method('POST');
             router.setRoute('/', 'publishedComment').method('PUT');
             router.setRoute('/:id', 'delete').method('DELETE');
-        }).controller('comment-controller');
+        }).controller('comment-controller').validate();
 
         router.prefix('api/users').setGroup(function () {
             router.setRoute('/:id', 'readById').method('GET');
