@@ -1,44 +1,51 @@
 module.exports = (router) => {
-    
-    
-        router.prefix('/books').setGroup(() => {
-            router.setRoute('/:id', 'book-controller.readById').method('GET').middleware('iDvalidation');
-            router.setRoute('/', 'book-controller.readAll').method('GET');
-            router.setRoute('/', 'book-controller.create').method('POST').middleware('validationBookCreate');
-            router.setRoute('', 'book-controller.update').method('PUT').middleware('validationBookUpdate');
-            router.setRoute('/:id', 'book-controller.delete').method('DELETE').middleware('iDvalidation');
-            
-        });
+
+        router.prefix('api/books').setGroup(() => {
+            router.setRoute('/:id', 'readById').method('GET').middleware('iDvalidation');
+            router.setRoute('/', 'readAll').method('GET');
+            router.setRoute('/', 'create').method('POST').middleware('validationBookCreate');
+            router.setRoute('/', 'update').method('PUT').middleware('validationBookUpdate');
+            router.setRoute('/:id', 'delete').method('DELETE').middleware('iDvalidation');
+            router.setRoute('comments/:id', 'getComments').method('GET');
+            router.setRoute('/search', 'search').method('GET');
+        }).controller('book-controller');
         
-        router.prefix('tags').setGroup(function () {
-            router.setRoute('', 'tag-controller.readAll').method('GET');
-            router.setRoute('', 'tag-controller.create').method('POST').middleware('validationTagCreate');
-            router.setRoute('', 'tag-controller.update').method('PUT').middleware('validationTagUpdate');
-            router.setRoute('/:id', 'tag-controller.delete').method('DELETE').middleware('iDvalidation');
+        router.prefix('api/tags').setGroup(function () {
+            router.setRoute('/', 'readAll').method('GET');
+            router.setRoute('/:id', 'readById').method('GET');
+            router.setRoute('/', 'create').method('POST').middleware('validationTagCreate');
+            router.setRoute('/', 'update').method('PUT').middleware('validationTagUpdate');
+            router.setRoute('/:id', 'delete').method('DELETE').middleware('iDvalidation');
+        }).controller('tag-controller');
 
-        });
+        router.prefix('api/comments').setGroup(function () {
+            router.setRoute('/', 'getAllComments').method('GET');
+            router.setRoute('/:id', 'getCommentById').method('GET');
+            router.setRoute('/', 'leaveComment').method('POST').middleware('validationCommentCreate');
+            router.setRoute('/', 'publishedComment').method('PUT');
+            router.setRoute('/:id', 'delete').method('DELETE').middleware('iDvalidation');
+        }).controller('comment-controller');
 
-        router.prefix('comments').setGroup(function () {
-            router.setRoute('/:id', 'comment-controller.getComments').method('GET').middleware('iDvalidation');
-            router.setRoute('', 'comment-controller.leaveComment').method('POST').middleware('validationCommentCreate');
-            router.setRoute('/:id', 'comment-controller.delete').method('DELETE').middleware('iDvalidation');
+        router.prefix('api/users').setGroup(function () {
+            router.setRoute('/:id', 'readById').method('GET').middleware('iDvalidation');
+            router.setRoute('/', 'readAll').method('GET');
+            router.setRoute('/', 'create').method('POST').middleware('validationUserCreate');
+            router.setRoute('/', 'update').method('PUT').middleware('validationUserUpdate');
+            router.setRoute('/:id', 'delete').method('DELETE').middleware('iDvalidation');
+            router.setRoute('/orders/:id', 'ordersByUserId').method('GET');
+        }).controller('user-controller');
 
-        });
+        router.prefix('api/orders').setGroup(function () {
+            router.setRoute('/:id', 'readById').method('GET').middleware('iDvalidation');
+            router.setRoute('/', 'readAll').method('GET');
+            router.setRoute('/', 'create').method('POST').middleware('validationOrderCreate');
+            router.setRoute('/', 'approval').method('PUT').middleware('validationOrderApproval');
+            router.setRoute('/:id', 'delete').method('DELETE').middleware('iDvalidation');
+        }).controller('order-controller');
 
-        router.prefix('users').setGroup(function () {
-            router.setRoute('/:id', 'user-controller.readById').method('GET').middleware('iDvalidation');
-            router.setRoute('', 'user-controller.readAll').method('GET');
-            router.setRoute('', 'user-controller.create').method('POST').middleware('validationUserCreate');
-            router.setRoute('', 'user-controller.update').method('PUT').middleware('validationUserUpdate');
-            router.setRoute('/:id', 'user-controller.delete').method('DELETE').middleware('iDvalidation');
-
-        });
-
-        router.prefix('orders').setGroup(function () {
-            router.setRoute('/:id', 'order-controller.readByUser').method('GET').middleware('iDvalidation');
-            router.setRoute('', 'order-controller.readAll').method('GET');
-            router.setRoute('', 'order-controller.create').method('POST').middleware('validationOrderCreate');
-            router.setRoute('', 'order-controller.approval').method('PUT').middleware('validationOrderApproval');
-            router.setRoute('/:id', 'order-controller.delete').method('DELETE').middleware('iDvalidation');
-        });
+        router.prefix('api/admin').setGroup(function () {
+            router.setRoute('tables', 'getAllTables').method('GET');
+            router.setRoute('tables', 'createAllTables').method('POST');
+            router.setRoute('tables', 'dropAllTables').method('DELETE');
+        }).controller('admin-controller');
 };

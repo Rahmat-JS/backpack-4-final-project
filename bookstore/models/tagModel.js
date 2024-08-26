@@ -1,6 +1,5 @@
 module.exports = class Tag {
-  constructor(id, name) {
-    this.id = id;
+  constructor(name) {
     this.name = name;
   }
 };

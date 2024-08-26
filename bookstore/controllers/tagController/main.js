@@ -1,30 +1,36 @@
 const BaseController = require('@partFramework/baseController');
-const Tag = require('../../models/tag');
+const Tag = require('../../models/tagModel');
 
 exports.controller = class TagController extends BaseController {
 
 	#tagService;
-	#utilsService;
-	constructor(core, schema, config, TagService, UtilsService) {
+	constructor(core, schema, config, tagService) {
 		super(core, schema, config);
-		this.#tagService = TagService;
-		this.#utilsService = UtilsService;
+		this.#tagService = tagService;
 	}
 
 	async create(body) {
-		const tag = new Tag(
-			this.#utilsService.getUUID(),
+		const newTag = new Tag(
 			body.name
 		);
-		return this.#tagService.create(tag);
+		return await this.#tagService.create(newTag);
 	}
 
 	async readAll() {
-		return this.#tagService.readAll();
+		return await this.#tagService.readAll();
+	}
+
+	async readById(params) {
+		return await this.#tagService.readById(params.id);
+	}
+
+	async update(body) {
+		const udpatedTag = new Tag(body.name);
+		return await this.#tagService.update(body.id, udpatedTag);
 	}
 
 	async delete(params) {
-		return this.#tagService.delete(params.id);
+		return await this.#tagService.delete(params.id);
 	}
 }
 

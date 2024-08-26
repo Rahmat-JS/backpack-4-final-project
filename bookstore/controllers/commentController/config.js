@@ -8,7 +8,17 @@ module.exports = {
         '_protocolRef.request.data'
       ],
     },
-    getComments: {
+    publishedComment: {
+      needProtocolRef: false,
+      params: [
+        '_protocolRef.request.data'
+      ],
+    },
+    getAllComments: {
+      needProtocolRef: false,
+      params: [],
+    },
+    getCommentById: {
       needProtocolRef: false,
       params: [
         '_inputData.params'

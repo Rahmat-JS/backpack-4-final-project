@@ -30,5 +30,11 @@ module.exports = {
         '_inputData.params'
       ],
     },
+    ordersByUserId: {
+      needProtocolRef: false,
+      params: [
+        '_inputData.params'
+      ],
+    }
   }
 };

@@ -1,10 +1,53 @@
 # Changelog
 
-## 1.0.0-alpha.18
+## 1.0.0-alpha.27
 ### Added
 * File server refactor and use of listeners (#22)
 * image display using get method (#22)
 
+## 1.0.0-alpha.26
+### Adding
+* adding decorator structures (#30)
+
+## 1.0.0-alpha.25
+### Adding
+* Update functions (#29)
+* Communication between entities (#29)
+### Fixing
+* Fix the errors created during the above steps
+
+## 1.0.0-alpha.24
+### Fixing
+* Customizing output in database service functions (#28)
+
+## 1.0.0-alpha.23
+### Added
+* connector of book system to database (CRUD for `book`) (#27)
+
+**NOTE**: So far we have implemented the `CRUD system` without **updates**. According to this update, it requires the use of in-service functions such as readById. This operation was postponed until after the implementation of the `decorator`!
+
+## 1.0.0-alpha.22
+### Added
+* connector of user system to database (CRUD for `user`) (#26)
+* function of add order to user in order creation function
+
+## 1.0.0-alpha.21
+### Added
+* connector of order system to database (CRUD for `order`) (#25)
+### Fixing
+* name of service and model file names
+
+## 1.0.0-alpha.20
+### Added
+* connector of comment system to database (CRUD for `comment`) (#24)
+
+## 1.0.0-alpha.19
+### Added
+* admin controller for get all tables and drop all tables from database (#23)
+
+## 1.0.0-alpha.18
+### Added
+* connector of tag service to database (#21)
 
 ## 1.0.0-alpha.17
 ### Added

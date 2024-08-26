@@ -12,7 +12,7 @@ module.exports = {
       needProtocolRef: false,
       params: [],
     },
-    readByUser: {
+    readById: {
       needProtocolRef: false,
       params: [
         '_inputData.params'

@@ -12,6 +12,12 @@ module.exports = {
       needProtocolRef: false,
       params: [],
     },
+    readById: {
+      needProtocolRef: false,
+      params: [
+        '_inputData.params'
+      ],
+    },
     update: {
       needProtocolRef: false,
       params: [
