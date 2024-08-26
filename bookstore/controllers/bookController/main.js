@@ -118,11 +118,13 @@ exports.controller = class BookController extends BaseController {
 
         for(const commentId of commentsIds) {
             const commentResponse = await this.#commentService.readById(commentId);
-            const {id, keys, body} = commentResponse['data'];
-            comments.push({
-                'id': id,
-                'details': body
-            });
+            if (commentResponse.data != null) { //rahmat if you change the deleteTag methode you can remove this if
+                const {id, keys, body} = commentResponse['data'];
+                comments.push({
+                    'id': id,
+                    'details': body
+                });
+            }
         }
         return {
             "data": comments,
