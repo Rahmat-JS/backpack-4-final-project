@@ -1,11 +1,45 @@
 module.exports = class AfterDecorators {
     
-    // not use yet ...
-    // async passwordDeleter(result) {
-    //     if(!result || !result.data)
-    //         return result;
-    
-    //     result.data.forEach(user => delete user.password);
-    //     return result;
-    // }
+
+    static async passwordDeleterForList(result) {
+        
+        // TODO: implement your code ...
+
+        return result;
+    }
+
+    static async passwordDeleterForOne(result) {
+
+        // TODO: implement your code ...
+
+        return result
+    }
+
+    static async getConfirmedOrders(result) {
+
+        // TODO: implement your code ...
+
+        return result
+    }
+
+    static async getPublishedComments(result) {
+
+        // TODO: implement your code ...
+
+        return result
+    }
+
 };
+
+
+// function passwordDeleterForList(result) {
+//     console.log('Hi I am extra mention!\n', result.data);
+        
+//     // TODO: implement your code ...
+
+//     return result;
+// }
+
+// module.exports = {
+//     passwordDeleterForList
+// };
