@@ -28,7 +28,7 @@ exports.controller = class UserController extends BaseController {
     }
 
     @after(AfterDecorators.passwordDeleterForOne)
-    async readById(params) {
+    async readById(params) { 
         return await this.#userService.readById(params.id);
     }
     
@@ -49,7 +49,7 @@ exports.controller = class UserController extends BaseController {
     }
 
     @after(AfterDecorators.passwordDeleterForList)
-    async readAll() {
+    async readAll() { 
         return await this.#userService.readAll();
     }
 

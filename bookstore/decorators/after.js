@@ -1,40 +1,37 @@
 module.exports = class AfterDecorators {
     
+  static async passwordDeleterForList(result) {
+    const usersList = result.data;
 
-    static async passwordDeleterForList(result) {
-        
-        // TODO: implement your code ...
+    usersList.forEach((Element) => {
+      delete Element.body.password;
+    });
 
-        return result;
-    }
+    return usersList;
+  }
 
-    static async passwordDeleterForOne(result) {
+  static async passwordDeleterForOne(result) {
+    delete result.data.body.password;
 
-        // TODO: implement your code ...
+    return result;
+  }
 
-        return result
-    }
+  static async getConfirmedOrders(result) {
+    // TODO: implement your code ...
 
-    static async getConfirmedOrders(result) {
+    return result;
+  }
 
-        // TODO: implement your code ...
+  static async getPublishedComments(result) {
+    // TODO: implement your code ...
 
-        return result
-    }
-
-    static async getPublishedComments(result) {
-
-        // TODO: implement your code ...
-
-        return result
-    }
-
+    return result;
+  }
 };
-
 
 // function passwordDeleterForList(result) {
 //     console.log('Hi I am extra mention!\n', result.data);
-        
+
 //     // TODO: implement your code ...
 
 //     return result;
