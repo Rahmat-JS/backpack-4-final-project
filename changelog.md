@@ -2,8 +2,8 @@
 
 ## 1.0.0-alpha.29
 ### Added
-* adding validations of entities (#33)
-* adding a middleware for replace space and underline
+* global Error Handler (#33)
+* global Error Exception (#33)
 
 ## 1.0.0-alpha.28
 ### Added
