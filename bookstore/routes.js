@@ -16,7 +16,7 @@ module.exports = (router) => {
             router.setRoute('/', 'create').method('POST');
             router.setRoute('/', 'update').method('PUT');
             router.setRoute('/:id', 'delete').method('DELETE');
-        }).controller('tag-controller');
+        }).controller('tag-controller').middleware('replaceSpaces').validate();
 
         router.prefix('api/comments').setGroup(function () {
             router.setRoute('/', 'getAllComments').method('GET');

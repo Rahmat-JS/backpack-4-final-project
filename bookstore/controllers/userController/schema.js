@@ -22,9 +22,7 @@ exports.create = {
     }
 };
 
-exports.readAll = {
-    // no validation needed
-};
+exports.readAll = {}; // no validation needed
 
 exports.readById = {
     params: paramsIdSchema
