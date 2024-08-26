@@ -1,3 +1,5 @@
+const ManualException = require("../utils/error/Exception");
+
 module.exports = class TagService {
 
     #dbService;
@@ -11,11 +13,8 @@ module.exports = class TagService {
 
         const oldTags = await this.#dbService.readByKey('tag', keysValueForDB);
         const isExist = oldTags['data'].length == 0 ? false : true;
-        if(isExist) return {
-            data: null,
-            message: `<${data.name}> was already exist!`,
-            statusCode: 409 // status code of duplicate
-        }
+        if(isExist) 
+            throw new ManualException(409, `tag name already exist!`);
 
         return await this.#dbService.create('tag', keysValueForDB, bodyValueForDB);
     }

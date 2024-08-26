@@ -1,6 +1,9 @@
 module.exports = {
   name: 'order-controller',
   path: './main.js',
+  exception: {
+    handler: require('../../utils/error/exceptionHandler')
+  },
   handlers: {
     create: {
       needProtocolRef: false,
