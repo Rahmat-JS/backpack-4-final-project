@@ -1,12 +1,12 @@
 module.exports = (router) => {
 
         router.prefix('api/books').setGroup(() => {
-            router.setRoute('/:id', 'readById').method('GET');
+            router.setRoute('/:id', 'readById').method('GET').validate();
             router.setRoute('/', 'readAll').method('GET');
             router.setRoute('/', 'create').method('POST');
             router.setRoute('/', 'update').method('PUT');
-            router.setRoute('/:id', 'delete').method('DELETE');
-            router.setRoute('comments/:id', 'getComments').method('GET');
+            router.setRoute('/:id', 'delete').method('DELETE').validate();
+            router.setRoute('comments/:id', 'getComments').method('GET').validate();
             router.setRoute('/search', 'search').method('GET');
         }).controller('book-controller');
         
