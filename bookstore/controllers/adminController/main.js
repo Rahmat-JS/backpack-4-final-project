@@ -1,24 +1,30 @@
 const BaseController = require('@partFramework/baseController');
 
 exports.controller = class AdminController extends BaseController {
-  
-  #dbService;
-  constructor(core, schema, config, dbService) {
-    super(core, schema, config);
-    this.#dbService = dbService;
-  }
 
-  async getAllTables() {
-    return await this.#dbService.getAllTables();
-  }
+    #dbService;
+    #authService;
+    constructor(core, schema, config, dbService, authService) {
+        super(core, schema, config);
+        this.#dbService = dbService;
+        this.#authService = authService;
+    }
 
-  async createAllTables() {
-    return await this.#dbService.createAllTables();
-  }
+    async getAllTables() {
+        return await this.#dbService.getAllTables();
+    }
 
-  async dropAllTables() {
-    return await this.#dbService.dropAllTables();
-  }
+    async createAllTables() {
+        return await this.#dbService.createAllTables();
+    }
+
+    async dropAllTables() {
+        return await this.#dbService.dropAllTables();
+    }
+
+    getAuthInfo() {
+        return this.#authService.getConfigInfo();
+    }
 
 }
 

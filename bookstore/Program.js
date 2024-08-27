@@ -9,9 +9,12 @@ const TagService = require('./services/tagService');
 const OrderService = require('./services/orderService');
 const UtilsService = require('./services/utilsService');
 const DBService = require('./database/dbService');
+const AuthService = require('./services/authService');
 
 const atlasInterfaceGlobalConfig = require('./configs/global/partModuleDelta.config').global;
 const atlasInterfaceInstanceConfig = require('./configs/instance/partModuleDelta.config').instance;
+
+const authInstanceConfig = require('./configs/auth.config').instance;
 
 class Program {
   #core;
@@ -43,6 +46,8 @@ class Program {
     await this.#core.loader.load('orderService', OrderService).injectRef('dbService');
     await this.#core.loader.load('fileService', FileService);
     await this.#core.loader.load('utilsService', UtilsService);
+    // await this.#core.loader.load('authService', AuthService).injectRef(authInstanceConfig);
+    await this.#core.loader.load('authService', AuthService);
   
   }
 
