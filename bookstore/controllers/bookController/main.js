@@ -99,6 +99,7 @@ exports.controller = class BookController extends BaseController {
     async delete(params) {
         
         const result = await this.#bookService.readById(params.id);
+
         if(result.statusCode == 200) { // deleting comments of book
             result.data.body.comments.forEach(async (commentId) => { // for each comment
                 await this.#commentService.delete(commentId);

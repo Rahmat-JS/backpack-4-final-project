@@ -1,13 +1,14 @@
 const http = require('http');
 const router = require('./router/main');
-const url = require('url')
-const path = require("path")
-const fs = require("fs")
+const url = require('url');
+const path = require("path");
+const fs = require("fs");
 const port = 3000;
 
 const serverconection = (req, res) => {
     const parsedUrl = url.parse(req.url, true);
     const pathname = parsedUrl.pathname;
+
     if (pathname.startsWith('/uploads')) {
         const filepath = path.join(__dirname, pathname);
         fs.readFile(filepath, (err, data) => {
@@ -21,13 +22,10 @@ const serverconection = (req, res) => {
                 res.end();
             }
         });
-    }
-
-    else {
+    } else {
         router(req, res);
     }
 };
-
 
 const server = http.createServer(serverconection);
 
