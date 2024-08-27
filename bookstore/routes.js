@@ -47,5 +47,11 @@ module.exports = (router) => {
             router.setRoute('tables', 'getAllTables').method('GET');
             router.setRoute('tables', 'createAllTables').method('POST');
             router.setRoute('tables', 'dropAllTables').method('DELETE');
+            router.setRoute('authinfo', 'getAuthInfo').method('GET');
         }).controller('admin-controller');
+
+        router.prefix('api/auth').setGroup(function () {
+            router.setRoute('sign-up', 'signUp').method('POST');
+            router.setRoute('login', 'login').method('POST');
+        }).controller('auth-controller').validate();
 };
