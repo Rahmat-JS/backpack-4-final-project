@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.0 [23:21 - 27 Aug 2024]
+**NOTE**: In this version, the program almost works correctly and is ready to serve customers.
+
 ## 1.0.0-alpha.31
 ### Added
 * login and sign-up api (#34)
