@@ -51,9 +51,11 @@ exports.controller = class BookController extends BaseController {
         const imagePath = uploadResponse['filePath'];
         const imageName = uploadResponse['fileName'];
 
-        const tagIds = await this.#getTagIds(body.tags);
+        const tags = body.tags.split(',').map(item => item.trim()); // split tags by ','
+
+        const tagIds = await this.#getTagIds(tags);
         const newBook = this.#getBookInstance(body, tagIds, imagePath, imageName);
-        const result = await this.#bookService.create(newBook, body.tags);
+        const result = await this.#bookService.create(newBook, tags);
         fs.unlinkSync(frameworkFilePath);
         return result;
     }
@@ -72,7 +74,7 @@ exports.controller = class BookController extends BaseController {
             return result;
 
         const oldBook = result['data']['body'];
-        const tags = body.tags ? await this.#getTagIds(body.tags) : oldBook.tags;
+        const tags = body.tags ? await this.#getTagIds(body.tags.split(',').map(item => item.trim())) : oldBook.tags;
         const updatedBook = new Book(
             body.name || oldBook.name,
             body.author || oldBook.author,
@@ -85,7 +87,6 @@ exports.controller = class BookController extends BaseController {
             oldBook.imagePath, // image path should not be changed
             oldBook.imageName // image name should not be changed
         );
-        // TODO : update image if new image is uploaded
 
         const tagNames = [];
         for(const tagID of updatedBook.tags) {
@@ -96,14 +97,18 @@ exports.controller = class BookController extends BaseController {
     }
 
     async delete(params) {
-        // TODO: delete image from file system
-
+        
         const result = await this.#bookService.readById(params.id);
         if(result.statusCode == 200) { // deleting comments of book
             result.data.body.comments.forEach(async (commentId) => { // for each comment
                 await this.#commentService.delete(commentId);
             });
         }
+
+        // deleting photo
+        // if(result.data.body?.imageName)
+        //     await this.#fileService.deleteFile(result.data.body.imageName);
+
         return await this.#bookService.delete(params.id);
     }
 
