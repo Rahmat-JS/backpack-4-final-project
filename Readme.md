@@ -5,6 +5,14 @@
 
 This repository contains the code for BookStore, an online bookstore application with two sub-programs: a server and a bookstore client.
 
+## Important tips for implementing the program
+
+- It must exist in the `./bookstore/test/uploads` and `./fileserver/uploads` directions. (even **empty**)
+- The main program runs on the `localhost:4001` and the file server runs on the `localhost:3000`.
+- Use the APIs on 👉[this page +](https://igit.partdp.ir/college/backpack4/musa-ku-taghi/bookstore/-/wikis/API-collection)👈 to test the program.
+- See the program changes in the [changelog](./changelog.md). Also see more major changes on [this page +](https://igit.partdp.ir/college/backpack4/musa-ku-taghi/bookstore/-/tags).
+- **Each line of code in this program is written with ❤️ from its contributors. We even had to drink ☕ in the 🕛 of the 🌃 to stay awake.**
+
 ## Applications
 BookStore provides two applications:
 
