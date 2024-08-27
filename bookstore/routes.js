@@ -53,5 +53,5 @@ module.exports = (router) => {
         router.prefix('api/auth').setGroup(function () {
             router.setRoute('sign-up', 'signUp').method('POST');
             router.setRoute('login', 'login').method('POST');
-        }).controller('auth-controller');
+        }).controller('auth-controller').validate();
 };

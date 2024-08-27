@@ -12,7 +12,7 @@ module.exports = {
       ],
     },
     login: {
-      needProtocolRef: true,
+      needProtocolRef: false,
       params: [
         '_protocolRef.request.data',
       ]
