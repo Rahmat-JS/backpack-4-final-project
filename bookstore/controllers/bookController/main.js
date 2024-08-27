@@ -96,14 +96,19 @@ exports.controller = class BookController extends BaseController {
     }
 
     async delete(params) {
-        // TODO: delete image from file system
-
+        
         const result = await this.#bookService.readById(params.id);
+
         if(result.statusCode == 200) { // deleting comments of book
             result.data.body.comments.forEach(async (commentId) => { // for each comment
                 await this.#commentService.delete(commentId);
             });
         }
+
+        // deleting photo
+        // if(result.data.body?.imageName)
+        //     await this.#fileService.deleteFile(result.data.body.imageName);
+
         return await this.#bookService.delete(params.id);
     }
 

@@ -19,7 +19,8 @@ module.exports = class FileService {
         }
     }
 
-    deleteFile(fileName) {
+    async deleteFile(fileName) {
+        
         axios.delete(`http://127.0.0.1:3000/delete/${fileName}`)
             .then(response => {
                 console.log('File deleted successfully:', response.data);

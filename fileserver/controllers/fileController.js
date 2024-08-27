@@ -46,9 +46,10 @@ function saveFile(req, res) {
 }
 
 
-function deleteFile(fileName, res) {
+function deleteFile(req, res) {
+    const { fileName } = req.params;
     const filePath = path.join(uploadsDir, fileName);
-
+    
     if (fs.existsSync(filePath)) {
         fs.unlink(filePath, (err) => {
             if (err) {
