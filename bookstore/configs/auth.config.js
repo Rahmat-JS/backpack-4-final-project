@@ -1,7 +1,11 @@
 const AuthenticationConfig = {
     global: {
-        host: 'authentication.apipart.ir',
-        protocol: 'http'
+        host: {
+            authentication: 'authentication.college.apipart.ir',
+            authorization: 'authorization.college.apipart.ir',
+            samad: 'samad.college.apipart.ir'
+        },
+        protocol: 'https'
     },
     instance: {
         auth: {
@@ -12,7 +16,3 @@ const AuthenticationConfig = {
 };
 
 module.exports = AuthenticationConfig;
-
-/*
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzeXN0ZW0iOiJhcGlfZ2F0ZXdheSIsImNyZWF0ZVRpbWUiOiIxNDAzMDYwNjExMDIxMDkzNCIsInVzZXJJZCI6ImYzYTg2YmYwLThmZGUtNDM4ZC05NTBlLTA0NjA0ZGM1ODAxZCIsInVuaXF1ZUZpZWxkcyI6W3sidXNlcm5hbWUiOiJtdXNhX2t1X3RhZ2hpIiwicGFzc3dvcmQiOiJIYXNoZWQgRGF0YS4uLiJ9XSwiZGF0YSI6Im11c2Ffa3VfdGFnaGkifQ.NlSyCLbwggfxt8YSgla-viGs9iIrRBzpjwAtFQ4NxsM
-*/

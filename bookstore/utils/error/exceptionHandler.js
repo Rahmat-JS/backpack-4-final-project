@@ -2,8 +2,6 @@ module.exports = function userExceptionHandler(exception, loader, command) {
     
     // you can log error here ...
 
-
-
     const error = {
         data: {
             message: exception.message
@@ -19,8 +17,8 @@ module.exports = function userExceptionHandler(exception, loader, command) {
             version: "1.0.0",
         };
 
-    if(exception.statusCode == 500)
-        error.data.serverError = exception.extraMessege;
+    if(exception.extraMessage)
+        error.data.serverError = exception.extraMessage;
 
     return error;
 }

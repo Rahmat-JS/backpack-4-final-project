@@ -22,7 +22,6 @@ exports.controller = class UserController extends BaseController {
             body.username,
             body.email,
             await this.#utilsService.hashPassword(body.password),
-            [] // on creation, user has no orders
         );
         return await this.#userService.create(newUser);
     }

@@ -1,24 +1,21 @@
 module.exports = {
   name: 'auth-controller',
   path: './main.js',
+  exception: {
+    handler: require('../../utils/error/exceptionHandler')
+  },
   handlers: {
-    sampleFirstMethod: {
+    signUp: {
       needProtocolRef: false,
       params: [
-        '_protocolRef.request.postData',
+        '_protocolRef.request.data',
       ],
     },
-    sampleSecondMethod: {
+    login: {
       needProtocolRef: true,
-      params: []
-    },
-    http_sendStream: {
-      needProtocolRef: false,
       params: [
-        '_protocolRef.request',
-        '_protocolRef.response',
-        '_inputData'
-      ],
+        '_protocolRef.request.data',
+      ]
     }
   }
 };   
