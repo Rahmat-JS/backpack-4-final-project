@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-alpha.30
+### Fixed
+* Fixing the photo deletion bug when deleting the book (#37)
+
 ## 1.0.0-alpha.29
 ### Added
 * global Error Handler (#33)
