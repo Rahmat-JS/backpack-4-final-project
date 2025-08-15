@@ -1,3 +1,6 @@
+##### download project description: [project-descripton.pdf](https://github.com/user-attachments/files/21797616/project-descripton.pdf)
+###### 🚨 Some links are linked to another (and inaccessible) repository. Unfortunately, it is not possible to retrieve the information contained in them!
+
 # Book Store (API project)
 [![fa](https://img.shields.io/badge/click_to_README-FARSI-red.svg)](https://igit.partdp.ir/college/backpack4/musa-ku-taghi/bookstore/-/wikis/READMEFARSI)
 [![todo](https://img.shields.io/badge/list_of-TODO-green.svg)](https://igit.partdp.ir/college/backpack4/musa-ku-taghi/bookstore/-/wikis/todo)
@@ -36,6 +39,7 @@ BookStore provides two applications:
     ```bash
     cd bookstore
     ```
+
 
 3. Install dependencies in both the `fileserver` and `bookstore` folders:
     * Navigate to the `fileserver` folder
